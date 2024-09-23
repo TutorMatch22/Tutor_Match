@@ -4,7 +4,7 @@ on:
   push:
     branches:
       - main
-      - develop
+      - develop # if we make a future branch, we can add it here
   pull_request:
     branches:
       - main
@@ -30,4 +30,4 @@ jobs:
 
     - name: Run tests
       run: |
-        pytest  # Make sure you have pytest tests set up
+        pytest  # make sure to run requirements.txt before running this command
