@@ -1,14 +1,14 @@
 name: CI for StudyConnect
-
+# structure similar to and cited from https://github.com/readme/guides/sothebys-github-actions
 on:
   push:
     branches:
       - main
-      - develop # if we make a future branch, we can add it here
+      - develop # main and develop branches will trigger CI. included just for demonstration purposes
   pull_request:
     branches:
       - main
-      - develop
+      - develop # ensure PRs to main/develop are tested
 
 jobs:
   test:
@@ -17,17 +17,20 @@ jobs:
     steps:
     - name: Check out the repository
       uses: actions/checkout@v2
+      # using v2 as it's stable and widely used, no need to switch to v3 unless necessary.
 
     - name: Set up Python
       uses: actions/setup-python@v2
       with:
-        python-version: '3.x'
+        python-version: '3.x' # Use the latest version in the 3.x range
 
     - name: Install dependencies
       run: |
-        python -m pip install --upgrade pip
-        pip install -r requirements.txt
+        python -m pip install --upgrade pip  # Upgrade pip to the latest version
+        pip install -r requirements.txt      # Install all dependencies listed in requirements.txt
+      # we could cache pip dependencies to speed up builds in the future
 
     - name: Run tests
       run: |
-        pytest  # make sure to run requirements.txt before running this command
+        pytest  # Running pytest to execute all tests
+      # If we want to generate coverage reports, we can add that later
