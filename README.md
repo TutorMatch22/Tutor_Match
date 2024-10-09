@@ -32,8 +32,9 @@ export FLASK_APP=main  # For MacOS/Linux
 
 set FLASK_APP=main     # For Windows
 
-flask run
+$env:FLASK_APP = "main" # For Windows Powershell
 
+flask run   # select one line above and then run flask
 
 ## Deactivate (optional)
 deactivate
