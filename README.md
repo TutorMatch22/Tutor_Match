@@ -49,6 +49,7 @@ git checkout -b feature-branch-name
 
 ## Commit the changes
 git add .
+
 git commit -m "Describe your changes here"
 
 
