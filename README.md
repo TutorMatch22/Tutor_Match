@@ -29,6 +29,7 @@ pytest
 
 ## Running the Application
 export FLASK_APP=main
+
 flask run
 
 ## Deactivate (optional)
