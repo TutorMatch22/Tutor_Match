@@ -6,7 +6,7 @@ StudyConnect is a web-based platform that allows students to search, view, and b
 
 git clone https://github.com/TutorMatch22/Tutor_Match.git
 
-cd StudyConnect
+cd Tutor_Match
 
 ### 2. Create & Activate a Virtual Environment
 #### MacOS/Linux:
