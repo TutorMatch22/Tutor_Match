@@ -1,13 +1,30 @@
+<!-- templates/login.html -->
 <html>
 <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-sacle=1">
-    <title>TutorMatch</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>TutorMatch - Login</title>
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles.css') }}">
 </head>
 <body>
-    <form action="/signUp" method="POST">
-        <!-- put log in form here -->
-    </form>>
+    <div class="container">
+        <h1>Login to TutorMatch</h1>
+        <!-- Flask-WTF will automatically include CSRF token in hidden_tag() -->
+        <form action="{{ url_for('login') }}" method="POST">
+            {{ form.hidden_tag() }}
+            <div class="form-group">
+                <label for="username">{{ form.username.label }}</label>
+                {{ form.username(size=32, class_="form-control", placeholder="Enter your username") }}
+            </div>
+            <div class="form-group">
+                <label for="password">{{ form.password.label }}</label>
+                {{ form.password(size=32, class_="form-control", placeholder="Enter your password") }}
+            </div>
+            <div class="form-group">
+                {{ form.submit(class_="btn btn-primary") }}
+            </div>
+        </form>
+        <p>Don't have an account? <a href="{{ url_for('register') }}">Sign Up</a></p>
+    </div>
 </body>
 </html>
