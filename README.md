@@ -32,17 +32,13 @@ export FLASK_APP=main  # For MacOS/Linux
 
 set FLASK_APP=main     # For Windows
 
-$env:FLASK_APP = "main" # For Windows Powershell
-
-
-
-flask run   # select one line above and then run flask
+flask run
 
 
 ## Deactivate (optional)
 deactivate
 
-## Afterwards: If you deactivated the virtual environment, you only need to activate it again as follows:
+## Afterwards: You only need to activate the virtual environment again if you deactivated it:
 ## Mac/Linux
 source venv/bin/activate
 ## Windows:

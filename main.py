@@ -1,9 +1,9 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, redirect, url_for
 app = Flask(__name__)
-#just testing for configuration management, add more later
+# just testing for configuration management, add more later
 @app.route('/')
 def home():
-    return "Welcome to StudyConnect"
+    return render_template('home.html')
 
 @app.route('/tutors')
 def tutors():
