@@ -17,42 +17,6 @@ db.init_app(app)
 def home():
     return render_template('index.html')
 
-# sign up form 
-@app.route("/signUp", methods=['GET', 'POST'])
-def signUp():
-    if request.method == 'POST':
-        username = request.form['Username']
-        email = request.form['Email']
-        # password = request.form['Password']
-
-        # Validate form data
-        # is_valid, error_message = validate_form_data(username, email, password)
-        # if not is_valid:
-        #     return render_template("signUp.html", error=error_message)
-
-        # try:
-        #     # Hash the password
-        #     password = hash_password(password)
-
-        #     # Establish database connection
-        #     with get_db_connection() as connection:
-        #         with connection.cursor() as cursor:
-        #             # SQL query to insert data into a table
-        #             sql = """INSERT INTO Users (usersname, usersEmail, usersPassword) VALUES (:1, :2, :3)"""
-
-        #             # Execute the SQL query
-        #             cursor.execute(sql, (username, email, password))
-        #             connection.commit()
-
-        #     return render_template("logIn.html")
-
-        # except oracledb.Error as error:
-        #     # Handle database connection or query errors
-        #     return f"An error occurred: {error}"
-
-    # Render the HTML template
-    return render_template("signUp.html")
-
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     form = LoginForm()
