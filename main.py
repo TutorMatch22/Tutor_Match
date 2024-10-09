@@ -15,7 +15,6 @@ db.init_app(app)
 def home():
     return render_template('index.html')
 
-<<<<<<< Updated upstream
 # sign up form 
 @app.route("/signUp", methods=['GET', 'POST'])
 def signUp():
@@ -100,13 +99,3 @@ def signUp():
 #         add_dummy_data()  # if the Tutor table is empty add dummy data
 
 #     app.run(debug=True)
-=======
-@app.route('/tutors')
-def tutors():
-    tutors_list = [
-        {'name': 'tutor1 lastname', 'subject': 'Math', 'rate': '$20/hr'},
-        {'name': 'tutor2', 'subject': 'Science', 'rate': '$25/hr'},
-        {'name': 'tutorfla3', 'subject': 'English', 'rate': '$15/hr'}
-    ]
-    return render_template('tutors.html', tutors=tutors_list)
->>>>>>> Stashed changes
