@@ -36,7 +36,7 @@ deactivate
 
 ## Afterwards: You only need to activate the virtual environment again if you deactivated it:
 ## Mac/Linux
-source env/bin/activate
+source venv/bin/activate
 ## Windows:
 venv\Scripts\activate
 
