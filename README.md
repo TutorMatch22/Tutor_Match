@@ -6,7 +6,7 @@ StudyConnect is a web-based platform that allows students to search, view, and b
 
 git clone https://github.com/TutorMatch22/Tutor_Match.git
 
-cd Tutor_Match
+cd StudyConnect
 
 ### 2. Create & Activate a Virtual Environment
 #### MacOS/Linux:
@@ -28,38 +28,7 @@ pip install -r requirements.txt
 pytest
 
 ## Running the Application
-export FLASK_APP=main  # For MacOS/Linux
-
-set FLASK_APP=main     # For Windows
-
 flask run
 
 
-## Deactivate (optional)
-deactivate
 
-## Afterwards: If you deactivated the virtual environment, you only need to activate it again as follows:
-## Mac/Linux
-source venv/bin/activate
-## Windows:
-venv\Scripts\activate
-
-
-
-## Steps in terminal for github
-## Create a new branch
-git checkout -b feature-branch-name
-
-## Commit the changes
-git add .
-
-git commit -m "Describe your changes here"
-
-
-## Push the branch to github
-git push origin feature-branch-name
-
-## Create a pull request to merge the branch into the develop or main branch.
-
-## Pull
-git pull origin main
