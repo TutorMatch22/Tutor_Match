@@ -5,7 +5,9 @@ from models import db, User, Tutor  # Import models from models.py
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = '\x07\x8a\x9b\xe2\xb2*\x1f\xbd>\xe8\x8aT\xa0\xec\xb9V%i7v\xb0h\x9f\x14'
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///instance/tutors.db'
+import os
+basedir = os.path.abspath(os.path.dirname(__file__))
+app.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///{os.path.join(basedir, "instance", "tutors.db")}'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 # initialize the database with the Flask app
