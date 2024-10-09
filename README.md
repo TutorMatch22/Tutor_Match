@@ -28,14 +28,17 @@ pip install -r requirements.txt
 pytest
 
 ## Running the Application
-export FLASK_APP=main
+export FLASK_APP=main  # For MacOS/Linux
+
+set FLASK_APP=main     # For Windows
 
 flask run
+
 
 ## Deactivate (optional)
 deactivate
 
-## Afterwards: You only need to activate the virtual environment again if you deactivated it:
+## Afterwards: If you deactivated the virtual environment, you only need to activate it again as follows:
 ## Mac/Linux
 source venv/bin/activate
 ## Windows:
