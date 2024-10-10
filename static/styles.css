@@ -1,38 +1,172 @@
 * {
     margin: 0;
     padding: 0;
-    font-family: sans-serif;
+    font-family: 'Roboto', sans-serif;
+    box-sizing: border-box;
+    text-transform: capitalize;
+    text-decoration: none;
+    outline: none;
 }
 
-.container {
+*::selection {
+    color: rebeccapurple;
+}
+
+html {
+    font-size: 62.5%;
+    overflow-x: hidden;
+}
+
+header {
+    width: 96%;
+    background-color: burlywood;
+    position: fixed;
+    top: 2rem;
+    left: 50%;
+    transform: translateX(-50%);
+    border-radius: 5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem 2rem;
+    z-index: 1000;
+    transition: .2s;
+}
+
+.header-active {
+    top: 0;
     width: 100%;
-    height: 100%;
-    background: #fff;
+    border-radius: 0;
+    box-shadow: 0 .1rem .3rem rgba(0,0,0,.3);
 }
 
-.menu ul {
-    display: inline-flex;
-    margin: 50px;
+#last-item {
+    padding-right: 20rem !important;
 }
 
-.menu ul li {
+header .navbar ul {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
     list-style: none;
-    margin: 0 20px;
-    color: #000;
+}
+
+header .navbar ul li {
+    margin: 0 1rem;
     cursor: pointer;
 }
 
-.logo img {
-    width: 30px;
-    margin-top: -7px;
-    margin-right: 48px;
+header .navbar ul li a {
+    font-size: 2rem;
+    color: blueviolet;
+    transition: .2s;
 }
 
-.active {
-    color: red !important;
+header .navbar ul li .active, .navbar ul li a:hover {
+    color: red;
 }
 
-.signup-btn {
+header .logo {
+    font-size: 2.5rem;
+    color: violet;
+    text-transform: uppercase;
+}
+
+header .fa-bars {
+    font-size: 3rem;
+    color: palevioletred;
+    cursor: pointer;
+    display: none;
+    transition: .2s;
+}
+
+.signup-btn, .login-btn {
+    border: 2px solid black;
+    padding: 0.2rem 2rem;
+    border-radius: 20px;
+}
+
+header .fa-times {
+    transform: rotate(180deg);
+    color: gold;
+}
+
+/* 
+.home .content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-flow: column;
+    padding-top: 14rem;
+    padding-bottom: 8rem;
+    text-align: center;
+}
+
+.home .content h1 {
+    font-size: 5rem;
+    padding: 0 1rem;
+    text-transform: uppercase;
+}
+
+.home .content p {
+    width: 75%;
+    font-size: 2rem;
+    padding: 1rem 2rem;
+} */
+
+/* media queries */
+@media (max-width: 768px) {
+    html {
+        font-size: 55%;
+    }
+
+    header .fa-bars {
+        display: block;
+    }
+
+    header .navbar {
+        position: fixed;
+        top: -100rem;
+        left: 0;
+        width: 100%;
+        background: blue;
+        border-radius: 1rem;
+        opacity: 0; 
+        transition: .2s linear;
+    }
+
+    header .navbar ul {
+        flex-flow: column;
+        padding: 2rem 0;
+    }
+
+    header .navbar ul li {
+        margin: 1rem 0;
+        width: 100%;
+        text-align: center;
+    }
+
+    #last-item {
+        padding: 1rem 2rem !important;
+    }
+
+    header .navbar ul li a {
+        font-size: 3rem;
+        display: block;
+    }
+
+    header .nav-toggle {
+        top: 5.5rem;
+        opacity: 1;
+    }
+
+    .signup-btn, .login-btn {
+        border: none;
+        font-weight: bold;
+    }
+}
+
+/* .signup-btn {
     top: 40px;
     right: 80px;
     position: absolute;
@@ -55,15 +189,18 @@
 .signup-btn span, .login-btn span {
     display: block;
     padding: 8px 12px;
-}
+} */
 
 .banner {
+    /* min-height: 100vh; */
+    background-color: peru;
     width: 80%;
     height: 70%;
     top: 25%;
     left: 100px;
-    position: absolute;
-    color: #000;
+    z-index: 0;
+    overflow: hidden;
+    position: relative;
 }
 
 .app-text {
@@ -72,7 +209,7 @@
 }
 
 .app-text h1 {
-    font-size: 43px;
+    font-size: 5rem;
     width: 640px;
     position: relative;
     margin-left: 40px;
@@ -94,6 +231,11 @@
 
 .app-img img {
     width: 100%;
-    margin-top: -5px;
+    margin-top: 50px;
     padding-left: 50px;
+}
+
+body {
+    background-color: aquamarine;
+    /* height: 3000px; */
 }
