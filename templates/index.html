@@ -11,9 +11,11 @@
             <ul>
                 <li class="logo"><img src="static/logo/Slide1.png"></li>
                 <li class="active">Home</li>
+                <li><a href="{{ url_for('tutors') }}">Our Tutors</a></li>
                 <li>Find a Tutor</li>
                 <li>Pricing</li>
                 <li>Testimonials</li>
+                <li><a href="{{ url_for('login') }}" class="login-btn"><span>Log In</span></a></li>
                 <li><a href="{{ url_for('register') }}" class="signup-btn"><span>Sign Up</span></a></li>
             </ul>
         </div>
@@ -29,7 +31,10 @@
                     the tutor's overall rating. This rating system, along with the tutor"s qualifications
                     and reviews, will enable students to make informed decisions, ensuring they find the
                     best possible match for their educational needs. The goal is to simplify the process
-                    of finding quality tutors while fostering an environment of transparency and trust.</p>
+                    of finding quality tutors while fostering an environment of transparency and trust. </p>
+            </div>
+            <div class="app-img">
+                <img src="static/13261.jpg">
             </div>
         </div>
     </div>
