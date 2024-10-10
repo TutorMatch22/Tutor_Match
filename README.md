@@ -1,5 +1,19 @@
 # Tutor_Match
 StudyConnect is a web-based platform that allows students to search, view, and book tutors online. The project uses **Flask**, **Python**, and **HTML**.
+
+## Database setup if error occurs 
+Make a directory in the root directory of the project by running this command in the root:
+
+mkdir instance
+
+Then after running (see how to run flask below) the program, run this in the terminal:
+
+chmod 777 instance/tutors.db    # Mac/Linux
+
+icacls "instance/tutors.db" /grant Everyone:F   # Windows
+
+Run the program now, the tutors.db should exist and have the necessary permisions.
+
 ## Project Setup
 
 ### 1. Clone the Repository
