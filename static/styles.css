@@ -1,3 +1,12 @@
+:root {
+    --darkblue: #00408c;
+    --blue: #96add6;
+    --red: #e85234;
+    --peach: #f9b8af;
+    --cream: #f2eee9;
+    --pink: #f2d7d3;
+}
+
 * {
     margin: 0;
     padding: 0;
@@ -9,7 +18,7 @@
 }
 
 *::selection {
-    color: rebeccapurple;
+    color: var(--darkblue);
 }
 
 html {
@@ -19,7 +28,7 @@ html {
 
 header {
     width: 96%;
-    background-color: burlywood;
+    background-color: var(--peach);
     position: fixed;
     top: 2rem;
     left: 50%;
@@ -40,14 +49,11 @@ header {
     box-shadow: 0 .1rem .3rem rgba(0,0,0,.3);
 }
 
-#last-item {
-    padding-right: 20rem !important;
-}
-
 header .navbar ul {
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    padding: 0;
+    margin: 0;
     list-style: none;
 }
 
@@ -58,66 +64,165 @@ header .navbar ul li {
 
 header .navbar ul li a {
     font-size: 2rem;
-    color: blueviolet;
+    color: var(--red);
     transition: .2s;
 }
 
 header .navbar ul li .active, .navbar ul li a:hover {
-    color: red;
+    color: var(--darkblue);
 }
 
 header .logo {
     font-size: 2.5rem;
-    color: violet;
+    color: var(--red);
     text-transform: uppercase;
 }
 
 header .fa-bars {
     font-size: 3rem;
-    color: palevioletred;
+    color: var(--red);
     cursor: pointer;
     display: none;
     transition: .2s;
 }
 
-.signup-btn, .login-btn {
-    border: 2px solid black;
+header .signup-btn, header .login-btn {
     padding: 0.2rem 2rem;
     border-radius: 20px;
+    background-color: var(--cream);
+}
+
+.header-active .signup-btn, .header-active .login-btn {
+    border-radius: 5px;
+}
+
+header .navbar ul li a.signup-btn:hover, 
+header .navbar ul li a.login-btn:hover {
+    background-color: var(--red);
 }
 
 header .fa-times {
     transform: rotate(180deg);
-    color: gold;
+    color: var(--red);
 }
 
-/* 
-.home .content {
+.home {
+    background-color: var(--cream);
+    min-height: 70vh;
+    z-index: 0;
     display: flex;
+    justify-content: space-between;
     align-items: center;
+    position: relative; 
+    z-index: 0;
+    overflow: hidden;
+}
+
+.home .banner {
+    display: flex;
     justify-content: center;
-    flex-flow: column;
-    padding-top: 14rem;
-    padding-bottom: 8rem;
-    text-align: center;
+    align-items: center;
 }
 
-.home .content h1 {
-    font-size: 5rem;
-    padding: 0 1rem;
-    text-transform: uppercase;
+.home .banner .app-text {
+    padding-top: 6rem;
+    padding-left: 15rem;
+    letter-spacing: .1rem;
 }
 
-.home .content p {
-    width: 75%;
+.home .banner .app-text p {
+    text-transform: none;
+    text-align:left;
+    font-size: 4.5rem;
+    font-weight: bold;
+    width: 60rem;
+    margin: 2.5rem 0;
+    line-height: 5rem;
+    color: #333;
+}
+
+.home .banner .app-text button {
+    height: 4rem;
+    width: 25rem;
+    border-radius: 5rem;
     font-size: 2rem;
-    padding: 1rem 2rem;
-} */
+    cursor: pointer;
+    transition: .2s;
+    border: none;
+    background-color: var(--red);
+    color: #fff;
+}
+
+.app-text .fa-arrow-circle-right {
+    margin-left: 2rem;
+    color: #fff;
+}
+
+.home .banner .app-img img {
+    width: 80%;
+    height: auto;
+}
+
+.about {
+    background-color: var(--pink);
+    width: 100%;
+    z-index: 0;
+    display: block;
+    justify-content: space-between;
+    align-items: center;
+    position: relative; 
+    z-index: 0;
+    overflow: hidden;
+}
+
+.about .heading {
+    font-size: 6rem;
+    text-align: center;
+    margin: 0 auto;
+    margin-top: 2rem;
+}
+
+.about .box-container {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin: 2rem 0;
+}
+
+.about .box-container .box {
+    width: 30rem;
+    text-align: center;
+    border: 1px solid var(--darkblue);
+    background-color: var(--cream);
+    border-radius: 1rem;
+    margin: 1.5rem;
+    padding: 1rem;
+}
+
+.about .box-container .box img {
+    width: 10rem;
+    height: auto;
+}
+
+.about .box-container .box h3 {
+    font-size: 2.5rem;
+    margin: 1rem 0;
+    color: var(--darkblue);
+}
+
+.about .box-container .box p {
+    font-size: 1.25rem;
+}
+
+body {
+    background-color: var(--cream);
+    height: 3000px;
+}
 
 /* media queries */
-@media (max-width: 768px) {
+@media only screen and (max-width: 1023px) and (min-width: 768px) {
     html {
-        font-size: 55%;
+        font-size: 75%;
     }
 
     header .fa-bars {
@@ -129,7 +234,7 @@ header .fa-times {
         top: -100rem;
         left: 0;
         width: 100%;
-        background: blue;
+        background: var(--pink);
         border-radius: 1rem;
         opacity: 0; 
         transition: .2s linear;
@@ -146,8 +251,97 @@ header .fa-times {
         text-align: center;
     }
 
-    #last-item {
-        padding: 1rem 2rem !important;
+    header .navbar ul li a {
+        font-size: 3rem;
+        display: block;
+    }
+
+    header .nav-toggle {
+        top: 5.5rem;
+        opacity: 1;
+    }
+
+    header .signup-btn, header .login-btn {
+        border: none;
+        border: 1px solid var(--red);
+        border-radius: 10px;
+        width: 70%;
+        margin: 0 auto;
+        display: inline-block;
+    }
+
+    .home {
+        min-height: 60vh;
+    }
+
+    .home .banner {
+        flex-flow: column-reverse;
+    }
+    
+    .home .banner .app-img {
+        width: 100%;  
+        height: auto;
+        display: flex;
+        justify-content: center;
+        align-items: center;    
+        margin: 0 auto;       
+        padding-top: 8rem;  
+    }
+    
+    .home .banner .app-text {
+        width: 100%;
+        display: flex;
+        flex-direction: column;  
+        justify-content: center;
+        align-items: center;
+        padding: 0;
+    }
+
+    .home .banner .app-text p {
+        font-size: 3rem;
+        line-height: 3rem;
+        text-align: center;
+    }
+
+    .home .banner .app-text button {
+        margin: 0 0 5rem 0;
+        width: 20rem;
+    }
+
+    .about .heading {
+        font-size: 4rem;
+    }
+}
+
+@media only screen and (max-width: 767px){
+    html {
+        font-size: 50%;
+    }
+
+    header .fa-bars {
+        display: block;
+    }
+
+    header .navbar {
+        position: fixed;
+        top: -100rem;
+        left: 0;
+        width: 100%;
+        background: var(--pink);
+        border-radius: 1rem;
+        opacity: 0; 
+        transition: .2s linear;
+    }
+
+    header .navbar ul {
+        flex-flow: column;
+        padding: 2rem 0;
+    }
+
+    header .navbar ul li {
+        margin: 1rem 0;
+        width: 100%;
+        text-align: center;
     }
 
     header .navbar ul li a {
@@ -160,82 +354,63 @@ header .fa-times {
         opacity: 1;
     }
 
-    .signup-btn, .login-btn {
+    header .signup-btn, header .login-btn {
         border: none;
-        font-weight: bold;
+        border: 1px solid var(--red);
+        border-radius: 10px;
+        width: 70%;
+        margin: 0 auto;
+        display: inline-block;
     }
-}
 
-/* .signup-btn {
-    top: 40px;
-    right: 80px;
-    position: absolute;
-    text-decoration: none;
-    color: blue;
-    border: 2px solid black;
-    border-radius: 20px;
-}
+    .home {
+        min-height: 35vh;
+        padding-top: 10rem;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+    }
+    
+    .home .banner {
+        flex-flow: column-reverse;
+    }
+    
+    .home .banner .app-img {
+        width: 100%;  
+        height: auto;
+        display: flex;
+        justify-content: center;
+        align-items: center;    
+        margin: 0 auto;     
+    }
+    
+    .home .banner .app-text {
+        width: 100%;
+        display: flex;
+        flex-direction: column;  
+        justify-content: center;
+        align-items: center;
+        padding: 0;
+    }
 
-.login-btn {
-    top: 40px;
-    right: 180px;
-    position: absolute;
-    text-decoration: none;
-    color: blue;
-    border: 2px solid black;
-    border-radius: 20px;
-}
+    .home .banner .app-text p {
+        width: 35rem;
+        font-size: 3rem;
+        line-height: 3rem;
+        text-align: center;
+    }
 
-.signup-btn span, .login-btn span {
-    display: block;
-    padding: 8px 12px;
-} */
+    .home .banner .app-text button {
+        margin: 0 0 5rem 0;
+        width: 20rem;
+    }
 
-.banner {
-    /* min-height: 100vh; */
-    background-color: peru;
-    width: 80%;
-    height: 70%;
-    top: 25%;
-    left: 100px;
-    z-index: 0;
-    overflow: hidden;
-    position: relative;
-}
+    .about .heading {
+        font-size: 3rem;
+    }
 
-.app-text {
-    width: 50%;
-    float: left;
-}
-
-.app-text h1 {
-    font-size: 5rem;
-    width: 640px;
-    position: relative;
-    margin-left: 40px;
-}
-
-.app-text p {
-    width: 650px;
-    font-size: 15px;
-    margin: 30px 0 30px 40px;
-    line-height: 25px;
-    color: #333;
-}
-
-.app-img {
-    width: 40%;
-    float: right;
-    justify-content: center;
-}
-
-.app-img img {
-    width: 100%;
-    margin-top: 50px;
-    padding-left: 50px;
-}
-
-body {
-    background-color: aquamarine;
-    /* height: 3000px; */
+    .about .box-container .box {
+        width: 40rem;
+    }
 }
