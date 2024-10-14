@@ -23,7 +23,7 @@ class LoginForm(FlaskForm):
 
 class RegistrationForm(FlaskForm):
     username = StringField('Username', validators=[DataRequired(), Length(min=4, max=20)])
-    email = StringField('Email', validators=[DataRequired(), Email()]) #email addition
+    email = StringField('Email', validators=[DataRequired(), Email(),Length(max=255)]) #email addition
     password = PasswordField('Password', validators=[DataRequired(), password_requirements])
     confirm_password = PasswordField('Confirm Password', validators=[DataRequired(), EqualTo('password', message='Passwords must match')])
     submit = SubmitField('Register')

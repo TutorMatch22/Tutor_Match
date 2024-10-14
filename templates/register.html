@@ -17,6 +17,10 @@
                 {{ form.username(size=32, class_="form-control", placeholder="Enter a username") }}
             </div>
             <div class="form-group">
+                <label for="email">{{ form.email.label }}</label>
+                {{ form.username(size=40,class_="form-control", maxlength=120, placeholder="Enter an email") }}
+            </div>
+            <div class="form-group">
                 <label for="password">{{ form.password.label }}</label>
                 {{ form.password(size=32, class_="form-control", placeholder="Create a password") }}
             </div>
