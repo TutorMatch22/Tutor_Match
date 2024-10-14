@@ -10,13 +10,13 @@ basedir = os.path.abspath(os.path.dirname(__file__))
 app.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///{os.path.join(basedir, "instance", "tutors.db")}'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 #**for email**
-app.config['MAIL_SERVER'] = 'smtp.gmail.com'  # **Example using Gmail**
-app.config['MAIL_PORT'] = 587
-app.config['MAIL_USE_TLS'] = True
-app.config['MAIL_USERNAME'] = 'studyconnect7@gmail.com'  # **Add your email**
-app.config['MAIL_PASSWORD'] = 'TutorMatch$1234'  # **Add your email password**
+#app.config['MAIL_SERVER'] = 'smtp.gmail.com'  # **Example using Gmail**
+#app.config['MAIL_PORT'] = 587
+#app.config['MAIL_USE_TLS'] = True
+#app.config['MAIL_USERNAME'] = 'studyconnect7@gmail.com'  # **Add your email**
+#app.config['MAIL_PASSWORD'] = 'TutorMatch$1234'  # **Add your email password**
 
-mail = Mail(app)
+#mail = Mail(app)
 # initialize the database with the Flask app
 db.init_app(app)
 
@@ -40,13 +40,13 @@ def login():
 def register():
     form = RegistrationForm()
     if form.validate_on_submit(): # don't need constructor in User() since sqlalchemy has deafult one
-        new_user = User(username=form.username.data, email=form.email.data,password=form.password.data)#email=form.email.data
+        new_user = User(username=form.username.data, password=form.password.data)#email=form.email.data
         db.session.add(new_user)
         db.session.commit()
         #email message start
-        msg = Message('Welcome to Tutor Match!', recipients=[form.email.data])
-        msg.body = f'Hello {form.username.data},\n\nThank you for registering with Tutor Match!'
-        mail.send(msg)
+        #msg = Message('Welcome to Tutor Match!', recipients=[form.email.data])
+        #msg.body = f'Hello {form.username.data},\n\nThank you for registering with Tutor Match!'
+        #mail.send(msg)
         #email message end
         flash(f'Account created for {form.username.data}!', 'success')
         return redirect(url_for('login'))
