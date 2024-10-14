@@ -3,7 +3,6 @@ from flask import Flask, render_template, request, redirect, url_for, flash
 from forms import LoginForm, RegistrationForm  # Import forms from forms.py
 from models import db, User, Tutor  # Import models from models.py
 from flask_mail import Mail, Message
-from email_validator import validate_email
 app = Flask(__name__)
 app.config['SECRET_KEY'] = '\x07\x8a\x9b\xe2\xb2*\x1f\xbd>\xe8\x8aT\xa0\xec\xb9V%i7v\xb0h\x9f\x14'
 import os
@@ -41,7 +40,7 @@ def login():
 def register():
     form = RegistrationForm()
     if form.validate_on_submit(): # don't need constructor in User() since sqlalchemy has deafult one
-        new_user = User(username=form.username.data,email=form.email.data, password=form.password.data)
+        new_user = User(username=form.username.data, email=form.email.data,password=form.password.data)#email=form.email.data
         db.session.add(new_user)
         db.session.commit()
         #email message start
@@ -52,6 +51,8 @@ def register():
         flash(f'Account created for {form.username.data}!', 'success')
         return redirect(url_for('login'))
     return render_template('register.html', form=form)
+
+
 
 @app.route('/tutors')
 def tutors():
