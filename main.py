@@ -3,6 +3,13 @@ from flask import Flask, render_template, request, redirect, url_for, flash
 from forms import LoginForm, RegistrationForm  # Import forms from forms.py
 from models import db, User, Tutor  # Import models from models.py
 from flask_mail import Mail, Message
+import random # for generating random tutor data
+from faker import Faker # libraries for random tutor names
+import random
+from models import Tutor
+
+
+fake = Faker()
 app = Flask(__name__)
 app.config['SECRET_KEY'] = '\x07\x8a\x9b\xe2\xb2*\x1f\xbd>\xe8\x8aT\xa0\xec\xb9V%i7v\xb0h\x9f\x14'
 import os
@@ -53,6 +60,15 @@ def register():
     return render_template('register.html', form=form)
 
 
+def generate_random_time_slots():
+    # generate random time slots
+    slots = []
+    for _ in range(random.randint(1, 5)):  # 1-5 time slots
+        start_hour = random.randint(7, 22)  # hour between 7:00 and 22:00
+        start_minute = random.choice(['00', '30'])  # either 00 or 30 m start
+        end_hour = start_hour + 1  # 1 hour long slot
+        slots.append(f'{start_hour:02}:{start_minute}-{end_hour:02}:{start_minute}')
+    return ', '.join(slots)
 
 @app.route('/tutors')
 def tutors():
@@ -60,18 +76,33 @@ def tutors():
     all_tutors = Tutor.query.all()
     return render_template('tutors.html', tutors=all_tutors)
 
+# rm instance/tutors.db to reset the database
 def add_dummy_data():
     # if there are no tutors in the database -> add dummy data
     if Tutor.query.count() == 0:
-        dummy_tutors = [
-            Tutor(name='Joe Cool', subject='Math', rating=4.9),
-            Tutor(name='Coco Melon', subject='Physics', rating=4.8),
-            Tutor(name='Cookie Dough', subject='Chemistry', rating=4.7),
-            Tutor(name='Alice Wonderland', subject='Biology', rating=4.6)
-        ]  
+        dummy_tutors = []
+        for _ in range(150):  
+            name = fake.name()  # random name
+            subject = random.choice(['Math', 'Physics', 'Chemistry', 'Biology', 'History', 'English'])
+            rating = round(random.uniform(1.0, 5.0), 1)  # random rating between 1.0 and 5.0 rounded to 1 decimal place
+            reviews = random.randint(1, 500)  # random number of reviews from 1 to 500
+            days_available = random.sample(['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'], random.randint(1, 7))  # 1-7 days available
+            time_slots = generate_random_time_slots()
+
+            dummy_tutor = Tutor(
+                name=name,
+                subject=subject,
+                rating=rating,
+                days_available=', '.join(days_available),  # convert list to a comma-separated string
+                time_slots=time_slots,
+                reviews=reviews  # random number of reviews from 1-500
+            )
+            dummy_tutors.append(dummy_tutor)
+
         db.session.bulk_save_objects(dummy_tutors)
         db.session.commit()
-        print("Dummy tutor data has been added!")
+        print("150 Tutor data has been added!")
+
 
 if __name__ == '__main__':
     with app.app_context():

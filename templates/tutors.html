@@ -11,7 +11,12 @@
         <h1>Our Tutors</h1>
         <ul>
             {% for tutor in tutors %}
-                <li>{{ tutor.name }} - {{ tutor.subject }} - Rating: {{ tutor.rating }}</li>
+                <li>
+                    {{ tutor.name }} - {{ tutor.subject }} - Rating: {{ tutor.rating }}<br>
+                    <strong>Days Available:</strong> {{ tutor.days_available }}<br>
+                    <strong>Time Slots:</strong> {{ tutor.time_slots }}<br>
+                    <strong>Number of Reviews:</strong> {{ tutor.reviews }}<br>
+                </li>
             {% endfor %}
         </ul>
     </div>
