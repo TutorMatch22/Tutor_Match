@@ -5,27 +5,69 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>TutorMatch - Login</title>
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles.css') }}">
-    <link rel="stylesheet" href="path/to/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 </head>
+<header>
+    <a href="{{ url_for('home') }}" class="logo"><i class="fas fa-graduation-cap"></i>TutorMatch</a>
+    <nav class="navbar">
+        <ul>
+            <li class="active"><a href="{{ url_for('home') }}">Home</a></li>
+            <li><a href="{{ url_for('tutors') }}">Our Tutors</a></li>
+            <li><a href="#">Find a Tutor</a></li>
+            <li><a href="#">Pricing</a></li>
+            <li><a href="#">Reviews</a></li>
+            <li><a href="{{ url_for('login') }}" class="login-btn">Log In</a></li>
+            
+
+        </ul>
+    </nav>
+    <div class="fas fa-bars"></div>
+</header>
 <body>
-    <div class="container">
-        <h1>Login to TutorMatch</h1>
-        <!-- Flask-WTF will automatically include CSRF token in hidden_tag() -->
-        <form action="{{ url_for('login') }}" method="POST">
-            {{ form.hidden_tag() }}
-            <div class="form-group">
-                <label for="username">{{ form.username.label }}</label>
-                {{ form.username(size=32, class_="form-control", placeholder="Enter your username") }}
+    <section id="flash-messages">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ category }}">{{ message }}</div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+    </section>
+    <section class="signin-signup-body">
+        <div class="container">
+            <div class="signin-signup signin-half">
+                <form action="{{ url_for('login') }}" method="POST" class="signin-signup-form signin-form">
+                    <h1 class="form-title">Sign In</h1>
+                    <!-- Flask-WTF will automatically include CSRF token in hidden_tag() -->
+                    {{ form.hidden_tag() }}
+                    <div class="input-field">
+                        <i class="fas fa-user"></i>
+                        {{ form.username(placeholder="Your username") }}
+                        <label for="username" style="display: none;">{{ form.username.label }}</label>
+                    </div>
+                    <div class="input-field">
+                        <i class="fas fa-lock"></i>
+                        {{ form.password(placeholder="Your password") }}
+                        <label for="password" style="display: none;">{{ form.password.label }}</label>
+                    </div>
+                    <div class="form-group">
+                        {{ form.submit(class_="signin-signup-btn", value="Log in") }}
+                    </div>
+                </form>
             </div>
-            <div class="form-group">
-                <label for="password">{{ form.password.label }}</label>
-                {{ form.password(size=32, class_="form-control", placeholder="Enter your password") }}
+            <div class="panels-container">
+                <div class="panel right-panel">
+                    <div class="signin-signup-content">
+                        <h3>Don't have an account?</h3>
+                        <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Quaerat inventore dolorem repellat nihil! Libero accusantium, ea, impedit, molestias temporibus fuga ex tempore quidem reiciendis voluptate accusamus officia consectetur nesciunt eaque.</p>
+                        <a href="{{ url_for('register') }}">
+                            <button id="sign-up-btn" class="form-btn">Sign Up</button>
+                        </a>
+                    </div>
+                    <img src="static/signin.png" class="form-img" alt="">
+                </div>
             </div>
-            <div class="form-group">
-                {{ form.submit(class_="btn btn-primary") }}
-            </div>
-        </form>
-        <p>Don't have an account? <a href="{{ url_for('register') }}">Sign Up</a></p>
-    </div>
+        </div>
+    </section>
 </body>
 </html>

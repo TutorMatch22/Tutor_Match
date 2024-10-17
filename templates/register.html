@@ -5,30 +5,64 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TutorMatch - Register</title>
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles.css') }}">
-    <link rel="stylesheet" href="path/to/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 </head>
+<header>
+    <a href="{{ url_for('home') }}" class="logo"><i class="fas fa-graduation-cap"></i>TutorMatch</a>
+    <nav class="navbar">
+        <ul>
+            <li class="active"><a href="{{ url_for('home') }}">Home</a></li>
+            <li><a href="{{ url_for('tutors') }}">Our Tutors</a></li>
+            <li><a href="#">Find a Tutor</a></li>
+            <li><a href="#">Pricing</a></li>
+            <li><a href="#">Reviews</a></li>
+            <li><a href="{{ url_for('login') }}" class="login-btn">Log In</a></li>
+            
+
+        </ul>
+    </nav>
+    <div class="fas fa-bars"></div>
+</header>
 <body>
-    <div class="container">
-        <h1>Register for TutorMatch</h1>
-        <form action="{{ url_for('register') }}" method="POST">
-            {{ form.hidden_tag() }}
-            <div class="form-group">
-                <label for="username">{{ form.username.label }}</label>
-                {{ form.username(size=32, class_="form-control", placeholder="Enter a username") }}
+    <section class="signin-signup-body">
+        <div class="container">
+            <div class="signin-signup signup-half">
+                <form action="{{ url_for('register') }}" method="POST" class="signin-signup-form signup-form">
+                    <h1 class="form-title">Sign Up</h1>
+                    {{ form.hidden_tag() }}
+                    <div class="input-field">
+                        <i class="fas fa-user"></i>
+                        {{ form.username(placeholder="Your username") }}
+                        <label for="username" style="display: none;">{{ form.username.label }}</label>
+                    </div>
+                    <div class="input-field">
+                        <i class="fas fa-lock"></i>
+                        {{ form.password(placeholder="Your password") }}
+                        <label for="password" style="display: none;">{{ form.password.label }}</label>
+                    </div>
+                    <div class="input-field">
+                        <i class="fas fa-key"></i>
+                        {{ form.confirm_password(placeholder="Confirm your password") }}
+                        <label for="password" style="display: none;">{{ form.confirm_password.label }}</label>
+                    </div>
+                    <div class="form-group">
+                        {{ form.submit(class_="signin-signup-btn", value="Sign up") }}
+                    </div>
+                </form>
             </div>
-            <div class="form-group">
-                <label for="password">{{ form.password.label }}</label>
-                {{ form.password(size=32, class_="form-control", placeholder="Create a password") }}
+            <div class="panels-container">
+                <div class="panel left-panel">
+                    <div class="signin-signup-content">
+                        <h3>Already have an account?</h3>
+                        <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Quaerat inventore dolorem repellat nihil! Libero accusantium, ea, impedit, molestias temporibus fuga ex tempore quidem reiciendis voluptate accusamus officia consectetur nesciunt eaque.</p>
+                        <a href="{{ url_for('login') }}">
+                            <button id="sign-in-btn" class="form-btn">Log In</button>
+                        </a>
+                    </div>
+                    <img src="static/signup.png" class="form-img" alt="">
+                </div>
             </div>
-            <div class="form-group">
-                <label for="confirm_password">{{ form.confirm_password.label }}</label>
-                {{ form.confirm_password(size=32, class_="form-control", placeholder="Confirm your password") }}
-            </div>
-            <div class="form-group">
-                {{ form.submit(class_="btn btn-primary") }}
-            </div>
-        </form>
-        <p>Already have an account? <a href="{{ url_for('login') }}">Login</a></p>
-    </div>
+        </div>
+    </section>
 </body>
 </html>
