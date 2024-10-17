@@ -22,6 +22,9 @@ class Tutor(db.Model):
     name = db.Column(db.String(100), nullable=False)
     subject = db.Column(db.String(100), nullable=False)
     rating = db.Column(db.Float, nullable=False)
+    days_available = db.Column(db.String(100), nullable=False)  # days in a week like monday, tuesday, etc.
+    time_slots = db.Column(db.String(100), nullable=False)  # times available like 9-10, 14-15, etc.
+    reviews = db.Column(db.Integer, nullable=False)  # Number of reviews
 
     def __repr__(self):
-        return f'Tutor({self.name}, {self.subject}, {self.rating})'
+        return f'Tutor({self.name}, {self.subject}, {self.rating}, {self.reviews} reviews)'
