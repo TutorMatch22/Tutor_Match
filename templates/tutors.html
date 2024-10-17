@@ -6,19 +6,33 @@
     <title>List of Tutors</title>
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles.css') }}">
 </head>
-<body>
-    <div class="container">
-        <h1>Our Tutors</h1>
+<header>
+    <a href="{{ url_for('home') }}" class="logo"><i class="fas fa-graduation-cap"></i>TutorMatch</a>
+    <nav class="navbar">
         <ul>
-            {% for tutor in tutors %}
-                <li>
-                    {{ tutor.name }} - {{ tutor.subject }} - Rating: {{ tutor.rating }}<br>
-                    <strong>Days Available:</strong> {{ tutor.days_available }}<br>
-                    <strong>Time Slots:</strong> {{ tutor.time_slots }}<br>
-                    <strong>Number of Reviews:</strong> {{ tutor.reviews }}<br>
-                </li>
-            {% endfor %}
+            <li class="active"><a href="{{ url_for('home') }}">Home</a></li>
+            <li><a href="{{ url_for('tutors') }}">Our Tutors</a></li>
+            <li><a href="#">Find a Tutor</a></li>
+            <li><a href="#">Pricing</a></li>
+            <li><a href="#">Reviews</a></li>
+            <li><a href="{{ url_for('login') }}" class="login-btn">Log In</a></li>
+            
+
         </ul>
-    </div>
+    </nav>
+    <div class="fas fa-bars"></div>
+</header>
+<body>
+    <h1>Our Tutors</h1>
+    <ul>
+        {% for tutor in tutors %}
+            <li>
+                {{ tutor.name }} - {{ tutor.subject }} - Rating: {{ tutor.rating }}<br>
+                <strong>Days Available:</strong> {{ tutor.days_available }}<br>
+                <strong>Time Slots:</strong> {{ tutor.time_slots }}<br>
+                <strong>Number of Reviews:</strong> {{ tutor.reviews }}<br>
+            </li>
+        {% endfor %}
+    </ul>
 </body>
 </html>
