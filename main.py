@@ -8,7 +8,6 @@ from faker import Faker # libraries for random tutor names
 import random
 from models import Tutor
 
-
 fake = Faker()
 app = Flask(__name__)
 app.config['SECRET_KEY'] = '\x07\x8a\x9b\xe2\xb2*\x1f\xbd>\xe8\x8aT\xa0\xec\xb9V%i7v\xb0h\x9f\x14'
@@ -58,6 +57,16 @@ def register():
         flash(f'Account created for {form.username.data}!', 'success')
         return redirect(url_for('login'))
     return render_template('register.html', form=form)
+
+def generate_random_time_slots():
+    # generate random time slots
+    slots = []
+    for _ in range(random.randint(1, 5)):  # 1-5 time slots
+        start_hour = random.randint(7, 22)  # hour between 7:00 and 22:00
+        start_minute = random.choice(['00', '30'])  # either 00 or 30 m start
+        end_hour = start_hour + 1  # 1 hour long slot
+        slots.append(f'{start_hour:02}:{start_minute}-{end_hour:02}:{start_minute}')
+    return ', '.join(slots)
 
 @app.route('/tutors')
 def tutors():
