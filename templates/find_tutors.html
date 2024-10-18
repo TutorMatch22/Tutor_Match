@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Find a Tutor</title> <!-- Updated title -->
+    <title>Find a Tutor</title>
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles.css') }}">
 </head>
 <body>
@@ -13,7 +13,7 @@
             <ul>
                 <li><a href="{{ url_for('home') }}">Home</a></li>
                 <li><a href="{{ url_for('tutors') }}">Our Tutors</a></li>
-                <li><a href="{{ url_for('filter_tutors_subject') }}">Find a Tutor</a></li> <!-- Updated to point to the new find_tutor page -->
+                <li><a href="{{ url_for('filter_tutors_subject') }}">Find a Tutor</a></li>
                 <li><a href="#">Pricing</a></li>
                 <li><a href="#">Reviews</a></li>
                 <li><a href="{{ url_for('login') }}" class="login-btn">Log In</a></li>
@@ -34,6 +34,16 @@
             <option value="History">History</option>
             <option value="English">English</option>
         </select>
+
+        <label for="rating">Minimum Rating:</label>
+        <input type="number" name="rating" id="rating" step="0.1" min="0" max="5" placeholder="0-5" required>
+
+        <label for="start_time">Start Time:</label>
+        <input type="time" name="start_time" id="start_time" required>
+
+        <label for="end_time">End Time:</label>
+        <input type="time" name="end_time" id="end_time" required>
+
         <button type="submit">Filter Tutors</button>
     </form>
 

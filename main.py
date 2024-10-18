@@ -101,44 +101,31 @@ def add_dummy_data():
         db.session.commit()
         print("150 Tutor data has been added!")
 
-
 @app.route('/find_tutors', methods=['GET'])
 def filter_tutors_subject():
     subject = request.args.get('subject')
-
-    if subject:
-        filtered_tutors = Tutor.query.filter_by(subject=subject).all()
-    else:
-        filtered_tutors = Tutor.query.all()  # Fallback to return all tutors if no subject is provided
-
-    return render_template('find_tutors.html', tutors=filtered_tutors)
-
-
-@app.route('/filter_tutors', methods=['GET'])
-def filter_tutors_sub_ratings():
-    subject = request.args.get('subject')
-    min_rating = request.args.get('rating', type=float)  # get the rating and convert to float
-
-    if subject and min_rating:
-        # filter tutors by both subject and minimum rating
-        filtered_tutors = Tutor.query.filter_by(subject=subject).filter(Tutor.rating >= min_rating).all()
-    else:
-        # if no filters provided, return all tutors
-        filtered_tutors = Tutor.query.all()
-
-    return render_template('tutors.html', tutors=filtered_tutors)
-@app.route('/filter_tutors_times', methods=['GET'])
-def filter_tutors_times():
+    min_rating = request.args.get('rating', type=float)  # Get the rating and convert to float
     start_time = request.args.get('start_time')
     end_time = request.args.get('end_time')
 
+    # Initialize the query
+    query = Tutor.query
+
+    # Apply subject filter if provided
+    if subject:
+        query = query.filter_by(subject=subject)
+
+    # Apply rating filter if provided
+    if min_rating is not None:
+        query = query.filter(Tutor.rating >= min_rating)
+
+    # Apply time filter if both start_time and end_time are provided
     if start_time and end_time:
-        # Convert user input times to datetime objects for comparison
         start_time_dt = datetime.strptime(start_time, '%H:%M')
         end_time_dt = datetime.strptime(end_time, '%H:%M')
 
+        all_tutors = query.all()
         filtered_tutors = []
-        all_tutors = Tutor.query.all()
 
         for tutor in all_tutors:
             # Iterate through each tutor's time slots and check if they overlap
@@ -151,12 +138,14 @@ def filter_tutors_times():
                 if (slot_start <= start_time_dt < slot_end) or (slot_start < end_time_dt <= slot_end):
                     filtered_tutors.append(tutor)
                     break  # No need to check other slots for this tutor once a match is found
+
+        # If no tutors match the time filter, return an empty list
+        filtered_tutors = filtered_tutors if filtered_tutors else []
     else:
-        # If no time filter provided, return all tutors
-        filtered_tutors = Tutor.query.all()
+        # If no time filter provided, get all tutors from the query
+        filtered_tutors = query.all()
 
-    return render_template('tutors.html', tutors=filtered_tutors)
-
+    return render_template('find_tutors.html', tutors=filtered_tutors)
 if __name__ == '__main__':
     with app.app_context():
         db.create_all()  # create all tables in the database
