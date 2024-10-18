@@ -7,7 +7,7 @@ import random # for generating random tutor data
 from faker import Faker # libraries for random tutor names
 import random
 from models import Tutor
-
+from datetime import datetime
 fake = Faker()
 app = Flask(__name__)
 app.config['SECRET_KEY'] = '\x07\x8a\x9b\xe2\xb2*\x1f\xbd>\xe8\x8aT\xa0\xec\xb9V%i7v\xb0h\x9f\x14'
@@ -126,7 +126,35 @@ def filter_tutors_sub_ratings():
         filtered_tutors = Tutor.query.all()
 
     return render_template('tutors.html', tutors=filtered_tutors)
+@app.route('/filter_tutors_times', methods=['GET'])
+def filter_tutors_times():
+    start_time = request.args.get('start_time')
+    end_time = request.args.get('end_time')
 
+    if start_time and end_time:
+        # Convert user input times to datetime objects for comparison
+        start_time_dt = datetime.strptime(start_time, '%H:%M')
+        end_time_dt = datetime.strptime(end_time, '%H:%M')
+
+        filtered_tutors = []
+        all_tutors = Tutor.query.all()
+
+        for tutor in all_tutors:
+            # Iterate through each tutor's time slots and check if they overlap
+            for slot in tutor.time_slots.split(', '):
+                slot_start_str, slot_end_str = slot.split('-')
+                slot_start = datetime.strptime(slot_start_str, '%H:%M')
+                slot_end = datetime.strptime(slot_end_str, '%H:%M')
+
+                # Check if tutor's slot overlaps with user's requested time
+                if (slot_start <= start_time_dt < slot_end) or (slot_start < end_time_dt <= slot_end):
+                    filtered_tutors.append(tutor)
+                    break  # No need to check other slots for this tutor once a match is found
+    else:
+        # If no time filter provided, return all tutors
+        filtered_tutors = Tutor.query.all()
+
+    return render_template('tutors.html', tutors=filtered_tutors)
 
 if __name__ == '__main__':
     with app.app_context():
