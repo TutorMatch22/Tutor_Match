@@ -102,15 +102,16 @@ def add_dummy_data():
         print("150 Tutor data has been added!")
 
 
-@app.route('/filter_tutors', methods=['GET'])
+@app.route('/find_tutors', methods=['GET'])
 def filter_tutors_subject():
     subject = request.args.get('subject')
+
     if subject:
         filtered_tutors = Tutor.query.filter_by(subject=subject).all()
     else:
-        filtered_tutors = Tutor.query.all()  # fallback to return all tutors if no subject is provided
+        filtered_tutors = Tutor.query.all()  # Fallback to return all tutors if no subject is provided
 
-    return render_template('tutors.html', tutors=filtered_tutors)
+    return render_template('find_tutors.html', tutors=filtered_tutors)
 
 
 @app.route('/filter_tutors', methods=['GET'])

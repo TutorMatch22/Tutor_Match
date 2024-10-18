@@ -12,7 +12,7 @@
         <ul>
             <li class="active"><a href="{{ url_for('home') }}">Home</a></li>
             <li><a href="{{ url_for('tutors') }}">Our Tutors</a></li>
-            <li><a href="#">Find a Tutor</a></li>
+            <li><a href="{{ url_for('filter_tutors_subject') }}">Find a Tutor</a></li>
             <li><a href="#">Pricing</a></li>
             <li><a href="#">Reviews</a></li>
             <li><a href="{{ url_for('login') }}" class="login-btn">Log In</a></li>
@@ -22,7 +22,8 @@
     </nav>
     <div class="fas fa-bars"></div>
 </header>
-<body>
+
+
     <h1>Our Tutors</h1>
     <ul>
         {% for tutor in tutors %}
