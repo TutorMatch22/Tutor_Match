@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Find a Tutor</title> <!-- Updated title -->
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <header>
+        <a href="{{ url_for('home') }}" class="logo"><i class="fas fa-graduation-cap"></i>TutorMatch</a>
+        <nav class="navbar">
+            <ul>
+                <li><a href="{{ url_for('home') }}">Home</a></li>
+                <li><a href="{{ url_for('tutors') }}">Our Tutors</a></li>
+                <li><a href="{{ url_for('filter_tutors_subject') }}">Find a Tutor</a></li> <!-- Updated to point to the new find_tutor page -->
+                <li><a href="#">Pricing</a></li>
+                <li><a href="#">Reviews</a></li>
+                <li><a href="{{ url_for('login') }}" class="login-btn">Log In</a></li>
+            </ul>
+        </nav>
+        <div class="fas fa-bars"></div>
+    </header>
+
+    <h1>Find a Tutor</h1>
+    <form action="{{ url_for('filter_tutors_subject') }}" method="GET">
+        <label for="subject">Select a Subject:</label>
+        <select name="subject" id="subject" required>
+            <option value="">--Choose a subject--</option>
+            <option value="Math">Math</option>
+            <option value="Physics">Physics</option>
+            <option value="Chemistry">Chemistry</option>
+            <option value="Biology">Biology</option>
+            <option value="History">History</option>
+            <option value="English">English</option>
+        </select>
+        <button type="submit">Filter Tutors</button>
+    </form>
+
+    <h2>Tutors List:</h2>
+    <ul>
+        {% for tutor in tutors %}
+            <li>
+                {{ tutor.name }} - {{ tutor.subject }} - Rating: {{ tutor.rating }}<br>
+                <strong>Days Available:</strong> {{ tutor.days_available }}<br>
+                <strong>Time Slots:</strong> {{ tutor.time_slots }}<br>
+                <strong>Number of Reviews:</strong> {{ tutor.reviews }}<br>
+            </li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
