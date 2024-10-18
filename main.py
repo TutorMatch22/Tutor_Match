@@ -103,7 +103,7 @@ def add_dummy_data():
 
 
 @app.route('/filter_tutors', methods=['GET'])
-def filter_tutors():
+def filter_tutors_subject():
     subject = request.args.get('subject')
     if subject:
         filtered_tutors = Tutor.query.filter_by(subject=subject).all()
@@ -114,7 +114,7 @@ def filter_tutors():
 
 
 @app.route('/filter_tutors', methods=['GET'])
-def filter_tutors():
+def filter_tutors_sub_ratings():
     subject = request.args.get('subject')
     min_rating = request.args.get('rating', type=float)  # get the rating and convert to float
 
