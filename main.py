@@ -102,6 +102,32 @@ def add_dummy_data():
         print("150 Tutor data has been added!")
 
 
+@app.route('/filter_tutors', methods=['GET'])
+def filter_tutors():
+    subject = request.args.get('subject')
+    if subject:
+        filtered_tutors = Tutor.query.filter_by(subject=subject).all()
+    else:
+        filtered_tutors = Tutor.query.all()  # fallback to return all tutors if no subject is provided
+
+    return render_template('tutors.html', tutors=filtered_tutors)
+
+
+@app.route('/filter_tutors', methods=['GET'])
+def filter_tutors():
+    subject = request.args.get('subject')
+    min_rating = request.args.get('rating', type=float)  # get the rating and convert to float
+
+    if subject and min_rating:
+        # filter tutors by both subject and minimum rating
+        filtered_tutors = Tutor.query.filter_by(subject=subject).filter(Tutor.rating >= min_rating).all()
+    else:
+        # if no filters provided, return all tutors
+        filtered_tutors = Tutor.query.all()
+
+    return render_template('tutors.html', tutors=filtered_tutors)
+
+
 if __name__ == '__main__':
     with app.app_context():
         db.create_all()  # create all tables in the database
