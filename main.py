@@ -59,14 +59,38 @@ def register():
     return render_template('register.html', form=form)
 
 def generate_random_time_slots():
-    # generate random time slots
     slots = []
-    for _ in range(random.randint(1, 5)):  # 1-5 time slots
-        start_hour = random.randint(7, 22)  # hour between 7:00 and 22:00
-        start_minute = random.choice(['00', '30'])  # either 00 or 30 m start
-        end_hour = start_hour + 1  # 1 hour long slot
-        slots.append(f'{start_hour:02}:{start_minute}-{end_hour:02}:{start_minute}')
+    taken_slots = []
+
+    for _ in range(random.randint(1, 7)):  # 1-7 time slots per day available
+        while True:
+            start_hour = random.randint(7, 21)  # between 7 AM and 9 PM start time
+            start_minute = random.choice([0, 30])  # minute either 00 or 30
+            end_hour = start_hour + 1  # 1-hour lessons
+            potential_slot = (start_hour, start_minute, end_hour)
+            overlap = False
+
+            for taken_start_hour, taken_start_minute, taken_end_hour in taken_slots:
+                taken_start_total_minutes = taken_start_hour * 60 + taken_start_minute
+                taken_end_total_minutes = taken_end_hour * 60 + taken_start_minute  
+
+                potential_start_total_minutes = start_hour * 60 + start_minute
+                potential_end_total_minutes = end_hour * 60 + start_minute
+
+                if not (potential_end_total_minutes <= taken_start_total_minutes or
+                        potential_start_total_minutes >= taken_end_total_minutes):
+                    overlap = True
+                    break
+
+            if not overlap:
+                slots.append(f'{start_hour:02}:{start_minute:02}-{end_hour:02}:{start_minute:02}')
+                taken_slots.append(potential_slot)
+                break  
+
     return ', '.join(slots)
+
+
+
 
 @app.route('/tutors')
 def tutors():
@@ -83,7 +107,7 @@ def add_dummy_data():
             name = fake.name()  # random name
             subject = random.choice(['Math', 'Physics', 'Chemistry', 'Biology', 'History', 'English'])
             rating = round(random.uniform(1.0, 5.0), 1)  # random rating between 1.0 and 5.0 rounded to 1 decimal place
-            reviews = random.randint(1, 500)  # random number of reviews from 1 to 500
+            reviews = random.randint(1, 200)  # random number of reviews from 1 to 500
             days_available = random.sample(['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'], random.randint(1, 7))  # 1-7 days available
             time_slots = generate_random_time_slots()
 
