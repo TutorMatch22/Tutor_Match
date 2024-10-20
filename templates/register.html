@@ -6,6 +6,7 @@
     <title>TutorMatch - Register</title>
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <header>
     <a href="{{ url_for('home') }}" class="logo"><i class="fas fa-graduation-cap"></i>TutorMatch</a>
@@ -16,9 +17,7 @@
             <li><a href="{{ url_for('filter_tutors_subject') }}">Find a Tutor</a></li>
             <li><a href="#">Pricing</a></li>
             <li><a href="#">Reviews</a></li>
-            <li><a href="{{ url_for('login') }}" class="login-btn">Log In</a></li>
-            
-
+            <li><a href="{{ url_for('login') }}" class="login-btn">Log In</a></li>            
         </ul>
     </nav>
     <div class="fas fa-bars"></div>
@@ -48,10 +47,11 @@
                     <div class="form-group">
                         {{ form.submit(class_="signin-signup-btn", value="Sign up") }}
                     </div>
+                    <p class="account-text">Already have an account?</p><a href="{{ url_for('login') }}" id="sign-in-btn2">Log In</a>
                 </form>
             </div>
             <div class="panels-container">
-                <div class="panel left-panel">
+                <div class="panel">
                     <div class="signin-signup-content">
                         <h3>Already have an account?</h3>
                         <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Quaerat inventore dolorem repellat nihil! Libero accusantium, ea, impedit, molestias temporibus fuga ex tempore quidem reiciendis voluptate accusamus officia consectetur nesciunt eaque.</p>
@@ -64,5 +64,7 @@
             </div>
         </div>
     </section>
+
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
 </body>
 </html>
