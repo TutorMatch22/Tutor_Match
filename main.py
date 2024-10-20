@@ -100,6 +100,7 @@ def add_dummy_data():
         db.session.bulk_save_objects(dummy_tutors)
         db.session.commit()
         print("150 Tutor data has been added!")
+        
 
 
 if __name__ == '__main__':
