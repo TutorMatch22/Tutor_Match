@@ -7,7 +7,7 @@ import random # for generating random tutor data
 from faker import Faker # libraries for random tutor names
 import random
 from models import Tutor
-
+from datetime import datetime
 fake = Faker()
 app = Flask(__name__)
 app.config['SECRET_KEY'] = '\x07\x8a\x9b\xe2\xb2*\x1f\xbd>\xe8\x8aT\xa0\xec\xb9V%i7v\xb0h\x9f\x14'
@@ -59,14 +59,38 @@ def register():
     return render_template('register.html', form=form)
 
 def generate_random_time_slots():
-    # generate random time slots
     slots = []
-    for _ in range(random.randint(1, 5)):  # 1-5 time slots
-        start_hour = random.randint(7, 22)  # hour between 7:00 and 22:00
-        start_minute = random.choice(['00', '30'])  # either 00 or 30 m start
-        end_hour = start_hour + 1  # 1 hour long slot
-        slots.append(f'{start_hour:02}:{start_minute}-{end_hour:02}:{start_minute}')
+    taken_slots = []
+
+    for _ in range(random.randint(1, 7)):  # 1-7 time slots per day available
+        while True:
+            start_hour = random.randint(7, 21)  # between 7 AM and 9 PM start time
+            start_minute = random.choice([0, 30])  # minute either 00 or 30
+            end_hour = start_hour + 1  # 1-hour lessons
+            potential_slot = (start_hour, start_minute, end_hour)
+            overlap = False
+
+            for taken_start_hour, taken_start_minute, taken_end_hour in taken_slots:
+                taken_start_total_minutes = taken_start_hour * 60 + taken_start_minute
+                taken_end_total_minutes = taken_end_hour * 60 + taken_start_minute  
+
+                potential_start_total_minutes = start_hour * 60 + start_minute
+                potential_end_total_minutes = end_hour * 60 + start_minute
+
+                if not (potential_end_total_minutes <= taken_start_total_minutes or
+                        potential_start_total_minutes >= taken_end_total_minutes):
+                    overlap = True
+                    break
+
+            if not overlap:
+                slots.append(f'{start_hour:02}:{start_minute:02}-{end_hour:02}:{start_minute:02}')
+                taken_slots.append(potential_slot)
+                break  
+
     return ', '.join(slots)
+
+
+
 
 @app.route('/tutors')
 def tutors():
@@ -83,7 +107,7 @@ def add_dummy_data():
             name = fake.name()  # random name
             subject = random.choice(['Math', 'Physics', 'Chemistry', 'Biology', 'History', 'English'])
             rating = round(random.uniform(1.0, 5.0), 1)  # random rating between 1.0 and 5.0 rounded to 1 decimal place
-            reviews = random.randint(1, 500)  # random number of reviews from 1 to 500
+            reviews = random.randint(1, 200)  # random number of reviews from 1 to 500
             days_available = random.sample(['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'], random.randint(1, 7))  # 1-7 days available
             time_slots = generate_random_time_slots()
 
@@ -102,7 +126,51 @@ def add_dummy_data():
         print("150 Tutor data has been added!")
         
 
+@app.route('/find_tutors', methods=['GET'])
+def filter_tutors_subject():
+    subject = request.args.get('subject')
+    min_rating = request.args.get('rating', type=float)  # Get the rating and convert to float
+    start_time = request.args.get('start_time')
+    end_time = request.args.get('end_time')
 
+    # Initialize the query
+    query = Tutor.query
+
+    # Apply subject filter if provided
+    if subject:
+        query = query.filter_by(subject=subject)
+
+    # Apply rating filter if provided
+    if min_rating is not None:
+        query = query.filter(Tutor.rating >= min_rating)
+
+    # Apply time filter if both start_time and end_time are provided
+    if start_time and end_time:
+        start_time_dt = datetime.strptime(start_time, '%H:%M')
+        end_time_dt = datetime.strptime(end_time, '%H:%M')
+
+        all_tutors = query.all()
+        filtered_tutors = []
+
+        for tutor in all_tutors:
+            # Iterate through each tutor's time slots and check if they overlap
+            for slot in tutor.time_slots.split(', '):
+                slot_start_str, slot_end_str = slot.split('-')
+                slot_start = datetime.strptime(slot_start_str, '%H:%M')
+                slot_end = datetime.strptime(slot_end_str, '%H:%M')
+
+                # Check if tutor's slot overlaps with user's requested time
+                if (slot_start <= start_time_dt < slot_end) or (slot_start < end_time_dt <= slot_end):
+                    filtered_tutors.append(tutor)
+                    break  # No need to check other slots for this tutor once a match is found
+
+        # If no tutors match the time filter, return an empty list
+        filtered_tutors = filtered_tutors if filtered_tutors else []
+    else:
+        # If no time filter provided, get all tutors from the query
+        filtered_tutors = query.all()
+
+    return render_template('find_tutors.html', tutors=filtered_tutors)
 if __name__ == '__main__':
     with app.app_context():
         db.create_all()  # create all tables in the database
