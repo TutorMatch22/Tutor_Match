@@ -11,7 +11,7 @@
 * {
     margin: 0;
     padding: 0;
-    font-family: 'Roboto', sans-serif;
+    font-family: "Lato", sans-serif;
     box-sizing: border-box;
     text-decoration: none;
     outline: none;
@@ -64,7 +64,7 @@ header .navbar ul li {
 }
 
 header .navbar ul li a {
-    font-size: 1.5rem;
+    font-size: 1.75rem;
     color: var(--red);
     transition: .2s;
 }
@@ -241,6 +241,8 @@ body {
     overflow: hidden;
 }
 
+/* LOGIN.HTML & REGISTER.HTML */
+
 .signin-signup {
     position: relative; 
     width: 50%; 
@@ -376,6 +378,96 @@ body {
 #sign-up-btn2, #sign-in-btn2, .account-text {
     display: none;
 }
+/* notice !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! */
+.alert {
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+}
+
+.alert-success {
+    background-color: #d4edda;
+    color: #155724;
+}
+
+.alert-danger {
+    background-color: #f8d7da;
+    color: #721c24;
+}
+
+/* TUTORS.HTML */
+.all-tutors h1 {
+    font-size: 5rem;
+    font-weight: 800;
+    color: var(--red);
+    padding-top: 10rem;
+    padding-bottom: 2rem;
+    text-align: center;
+}
+
+.all-tutors .box-container {
+    display: flex;
+    justify-content: center;
+    padding-top: 2rem;
+    flex-wrap: wrap;
+}
+
+.all-tutors .box-container .box {
+    background-color: var(--pink);
+    width: 30rem;
+    padding: 2rem 2rem 3rem 2rem;
+    text-align: center;
+    box-shadow: 0 .1rem .3rem rgba(0,0,0,.3);
+    margin: 3rem;
+    border-radius: 1rem;
+}
+
+.all-tutors .box-container .box img {
+    height: 8.5rem;
+    width: 8.5rem;
+    object-fit: cover;
+    border-radius: 50%;
+    margin-top: -6rem;
+    padding-bottom: 1rem;
+}
+
+.all-tutors .box-container .box h2 {
+    font-size: 2rem;
+    padding-bottom: .5rem;
+}
+
+.all-tutors .box-container .box h3 {
+    font-size: 1.5rem;
+    padding-bottom: .5rem;
+}
+
+.all-tutors .tutor-rating {
+    font-size: 1.3rem;
+    padding-bottom: 1.5rem;
+    text-align: center;
+}
+
+.all-tutors p {
+    font-size: 1.25rem;
+    padding-top: .25rem;
+    text-align: justify;
+}
+
+/* .book-btn {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: .5rem;
+} */
+
+/* FIND_TUTORS.HTML */
+.find-tutors .box-container {
+    width: 100%;
+    margin-top: 10rem;
+}
 
 /* media queries */
 @media only screen and (max-width: 1023px) and (min-width: 768px) {
@@ -500,6 +592,12 @@ body {
 
     .account-text {
         color: #777;
+    }
+
+    .all-tutors .box-container .box {
+        width: 60rem;
+        padding: 2rem;
+        height: auto;
     }
 }
 
@@ -647,23 +745,10 @@ body {
     .account-text {
         color: #777;
     }
-}
 
-
-
-
-.alert {
-    padding: 10px;
-    margin-bottom: 10px;
-    border-radius: 5px;
-}
-
-.alert-success {
-    background-color: #d4edda;
-    color: #155724;
-}
-
-.alert-danger {
-    background-color: #f8d7da;
-    color: #721c24;
+    .all-tutors .box-container .box {
+        width: 40rem;
+        padding: 2rem;
+        height: auto;
+    }
 }

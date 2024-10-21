@@ -25,6 +25,8 @@ class Tutor(db.Model):
     days_available = db.Column(db.String(100), nullable=False)  # days in a week like monday, tuesday, etc.
     time_slots = db.Column(db.String(100), nullable=False)  # times available like 9-10, 14-15, etc.
     reviews = db.Column(db.Integer, nullable=False)  # Number of reviews
+    review_text = db.Column(db.Text, nullable=True)  # Actual review text (single review)
+    image_path = db.Column(db.String(255), nullable=True)  # Path to the tutor's image
 
     def __repr__(self):
-        return f'Tutor({self.name}, {self.subject}, {self.rating}, {self.reviews} reviews)'
+        return f'Tutor({self.name}, {self.subject}, {self.rating}, {self.reviews} reviews, Review: {self.reviews}, Image Path: {self.image_path})'
