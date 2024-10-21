@@ -124,7 +124,6 @@ def add_dummy_data():
         db.session.bulk_save_objects(dummy_tutors)
         db.session.commit()
         print("150 Tutor data has been added!")
-        
 
 @app.route('/find_tutors', methods=['GET'])
 def filter_tutors_subject():
