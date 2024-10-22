@@ -132,7 +132,7 @@ def add_dummy_data():
             name = fake.name()  # random name
             subject = random.choice(['Math', 'Physics', 'Chemistry', 'Biology', 'History', 'English'])
             rating = round(random.uniform(1.0, 5.0), 1)  # random rating between 1.0 and 5.0 rounded to 1 decimal place
-            reviews = random.randint(1, 200)  # random number of reviews from 1 to 500
+            reviews = random.randint(1, 200)  # random number of reviews from 1 to 200
             review_text = random.choice(review_templates).format(name=name, subject=subject) # generate reviews from template
             # review_text = truncate_text(review_text, max_length=300) # limit text
             days_available = random.sample(['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'], random.randint(1, 7))  # 1-7 days available
@@ -147,7 +147,7 @@ def add_dummy_data():
                 rating=rating,
                 days_available=', '.join(days_available),  # convert list to a comma-separated string
                 time_slots=time_slots,
-                reviews=reviews,  # random number of reviews from 1-500
+                reviews=reviews,  # random number of reviews from 1-200
                 review_text=review_text,
                 image_path=image_path
             )
