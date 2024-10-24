@@ -4,7 +4,7 @@ on:
   push:
     branches:
       - main
-      - develop # main and develop branches will trigger CI. included just for demonstration purposes
+      - develop # main and develop branches will trigger CI.
   pull_request:
     branches:
       - main
@@ -13,27 +13,19 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
-
     steps:
     - name: Check out the repository
       uses: actions/checkout@v2
-      # using v2 as it's stable and widely used, no need to switch to v3 unless necessary.
 
     - name: Set up Python
       uses: actions/setup-python@v2
       with:
-        python-version: '3.x' # Use the latest version in the 3.x range
+        python-version: '3.x'
 
     - name: Install dependencies
       run: |
-        python -m pip install --upgrade pip  # Upgrade pip to the latest version
-        pip install -r requirements.txt      # Install all dependencies listed in requirements.txt
-      # we could cache pip dependencies to speed up builds in the future
-
-    - name: Set up test database
-      run: |
-        mkdir -p /tmp/db  # Create a temporary directory for the database if not exists
-        export DATABASE_URL=sqlite:///tmp/db/test_db.sqlite3  # Set the database URL to a local SQLite DB
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
 
     - name: Run tests
       run: |
