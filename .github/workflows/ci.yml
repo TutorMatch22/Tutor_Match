@@ -30,7 +30,11 @@ jobs:
         pip install -r requirements.txt      # Install all dependencies listed in requirements.txt
       # we could cache pip dependencies to speed up builds in the future
 
+    - name: Set up test database
+      run: |
+        mkdir -p /tmp/db  # Create a temporary directory for the database if not exists
+        export DATABASE_URL=sqlite:///tmp/db/test_db.sqlite3  # Set the database URL to a local SQLite DB
+
     - name: Run tests
       run: |
-        pytest  # Running pytest to execute all tests
-      # If we want to generate coverage reports, we can add that later
+        pytest

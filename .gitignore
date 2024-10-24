@@ -2,3 +2,17 @@ venv/
 __pycache__/
 tutors.db
 instance/tutors.db
+# ignore SQLite database files
+*.sqlite3
+*.db
+
+# ignore database directory (if applicable)
+db/
+tmp/db/
+
+# ignore Python bytecode and cache
+__pycache__/
+*.py[cod]
+
+# ignore environment or secret files
+.env
