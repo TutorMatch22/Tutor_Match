@@ -8,65 +8,101 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles.css') }}">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body>
-    <header>
-        <a href="{{ url_for('home') }}" class="logo"><i class="fas fa-graduation-cap"></i>TutorMatch</a>
-        <nav class="navbar">
-            <ul>
-                <li><a href="{{ url_for('home') }}">Home</a></li>
-                <li><a href="{{ url_for('tutors') }}">Our Tutors</a></li>
-                <li><a href="{{ url_for('filter_tutors_subject') }}">Find a Tutor</a></li>
-                <li><a href="#">Pricing</a></li>
-                <li><a href="#">Reviews</a></li>
-                <li><a href="{{ url_for('login') }}" class="login-btn">Log In</a></li>
-            </ul>
-        </nav>
-        <div class="fas fa-bars"></div>
-    </header>
-    <section class="find-tutors">
-        <div class="box-container">
-            <h1>Find a Tutor</h1>
-            <form action="{{ url_for('filter_tutors_subject') }}" method="GET">
-                <label for="subject">Select a Subject:</label>
-                <select name="subject" id="subject" required>
-                    <option value="">--Choose a subject--</option>
-                    <option value="Math">Math</option>
-                    <option value="Physics">Physics</option>
-                    <option value="Chemistry">Chemistry</option>
-                    <option value="Biology">Biology</option>
-                    <option value="History">History</option>
-                    <option value="English">English</option>
-                </select>
-
-                <label for="rating">Minimum Rating:</label>
-                <input type="number" name="rating" id="rating" step="0.1" min="0" max="5" placeholder="0-5" required>
-
-                <label for="start_time">Start Time:</label>
-                <input type="time" name="start_time" id="start_time" required>
-
-                <label for="end_time">End Time:</label>
-                <input type="time" name="end_time" id="end_time" required>
-
+<header>
+    <a href="{{ url_for('home') }}" class="logo"><i class="fas fa-graduation-cap"></i>TutorMatch</a>
+    <nav class="navbar">
+        <ul>
+            <li><a href="{{ url_for('home') }}">Home</a></li>
+            <li><a href="{{ url_for('tutors') }}">Our Tutors</a></li>
+            <li><a href="{{ url_for('filter_tutors_subject') }}">Find a Tutor</a></li>
+            <li><a href="#">Pricing</a></li>
+            <li><a href="#">Reviews</a></li>
+            <li><a href="{{ url_for('login') }}" class="login-btn">Log In</a></li>
+        </ul>
+    </nav>
+    <div class="fas fa-bars"></div>
+</header>
+<section class="find-tutors">
+    <h1>Find a Tutor</h1>
+    <div class="find-tutors-container">
+        <div class="filter-container">
+            <h2>Filters</h2>
+            <form action="{{ url_for('filter_tutors_subject') }}" method="GET" id="filter-form" onsubmit="return validateFilterForm()">
+                <div class="filter-field">
+                    <label for="subject">Select a Subject:</label><br>
+                    <select placeholder="Select a Subject" name="subject" id="subject">
+                        <option value="">--Choose a subject--</option>
+                        <option value="Math">Math</option>
+                        <option value="Physics">Physics</option>
+                        <option value="Chemistry">Chemistry</option>
+                        <option value="Biology">Biology</option>
+                        <option value="History">History</option>
+                        <option value="English">English</option>
+                    </select>
+                </div>
+                <div class="filter-field">
+                    <label for="rating">Minimum Rating:</label><br>
+                    <input type="number" name="rating" id="rating" step="0.1" min="0" max="5" placeholder="0-5" required>
+                </div>
+                <div class="filter-field">
+                    <label for="start_time">Start Time:</label><br>
+                    <input type="time" name="start_time" id="start_time">
+                </div>
+                <div class="filter-field">
+                    <label for="end_time">End Time:</label><br>
+                    <input type="time" name="end_time" id="end_time">
+                </div>
+                <br>
                 <button type="submit">Filter Tutors</button>
             </form>
-
-            <h2>Tutors List:</h2>
-            <ul>
-                {% for tutor in tutors %}
-                    <li>
-                        {{ tutor.name }} - {{ tutor.subject }} - Rating: {{ tutor.rating }}<br>
-                        <strong>Days Available:</strong> {{ tutor.days_available }}<br>
-                        <strong>Time Slots:</strong> {{ tutor.time_slots }}<br>
-                        <strong>Number of Reviews:</strong> {{ tutor.reviews }}<br>
-                    </li>
-                {% endfor %}
-            </ul>
         </div>
-    </section>
+        <div class="main-container">
+            <div class="search-container">
+                <form action="{{ url_for('filter_tutors_subject') }}" method="GET" id="tutor-search-form">
+                    <div class="input-field">
+                        <i class="fas fa-magnifying-glass"></i>
+                        <input type="text" name="keyword" id="keyword" placeholder="Search by name or keyword">
+                        <i class="fas fa-arrow-right" id="search-arrow" style="display: none;"></i>
+                    </div>
+                </form>
+            </div>
+            <div class="sort-container">
+                <form action="{{ url_for('filter_tutors_subject') }}" method="GET">
+                    <div class="sort-field">
+                        <select name="sort_by" id="sort-by">
+                            <option value="">--Sort by--</option>
+                            <option value="name">Name</option>
+                            <option value="rating">Rating</option>
+                            <option value="reviews">Number of Reviews</option>
+                        </select>
+                    </div>
+                </form>
+            </div>
+            <!-- <button class="filter-dropdown">Filter Tutors</button> -->
+            <div class="box-container">
+                {% for tutor in tutors %}
+                    <div class="box">
+                        <div class="tutor-content">
+                            <img src="{{ tutor.image_path }}" alt="Profile image of {{ tutor.name }}">
+                            <h2>{{ tutor.name }}</h2>
+                            <h3><i class="fas fa-solid fa-graduation-cap"></i> {{ tutor.subject }}</h3>
+                            <p class="tutor-rating"><i class="fas fa-solid fa-star"></i> {{ tutor.rating }} ({{ tutor.reviews }} reviews)</p>
+                            <p><strong>Available:</strong> {{ tutor.days_available }}</p>
+                            <p><strong>Time Slots:</strong> {{ tutor.time_slots }}</p>
+                            <p><strong>Review:</strong> {{ tutor.review_text }}</p>
+                        </div>
+                        <!-- <button class="book-btn">Book Now???</button> -->
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</section>
 
-    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+<script src="{{ url_for('static', filename='js/main.js') }}"></script>
 </body>
 </html>

@@ -119,7 +119,7 @@ def add_dummy_data():
             "{name} worked with both my kids and was extremely helpful and supportive. They're also prompt with responses and always follows up, which is not my experience with some others we've worked with. So glad to have found them!",
             "While my son was struggling with {subject}, I could not help him. {name} stood out on TutorMatch and we booked him. My son is now getting a good foundation in {subject} and succeeding. Give {name} a chance. Well worth the money.",
             "{name} is tutoring my daughter for the {subject} exam - and we all feel so lucky to have found them. We couldn't ask for a better teacher. Smart, kind and patient - with excellent teaching methods, {name} is an exceptional tutor!",
-            "{name} was willing to meet last minute with my daughter to prepare her for a quiz. She was able to quickly assess what the problem was and explain how to do the problem in a way that my daughter understood. {name} is wonderful and we look forward to continuing sessions with them.",
+            "{name} was willing to meet last minute with my daughter to prepare her for a quiz. They was able to quickly assess what the problem was and explain how to do the problem in a way that my daughter understood. {name} is wonderful and we look forward to continuing sessions with them.",
             "{name} did a great job helping my daughter who was struggling in {subject}. {name} is great at assessing the student's individual strengths and weaknesses and providing extra explanations and practice in the areas they struggle. My daughter really enjoyed working with him, and her grades really improved.",
             "{name} is our number one tutor, the kind of tutor that every student needs and wishes they had. They tutored me in a complex and difficult course in {subject} and presented the material so that it clear, simple ans easy to understand.",
             "My daughter has been working with {name} for over a year now and it has changed our lives! My daughter has a very busy schedule so homework time has always been extremely stressful! {name} has been a great asset! They're incredibly flexible and accommodating with her schedule.",
@@ -163,6 +163,7 @@ def filter_tutors_subject():
     min_rating = request.args.get('rating', type=float)  # Get the rating and convert to float
     start_time = request.args.get('start_time')
     end_time = request.args.get('end_time')
+    keyword = request.args.get('keyword')
 
     # Initialize the query
     query = Tutor.query
@@ -174,6 +175,13 @@ def filter_tutors_subject():
     # Apply rating filter if provided
     if min_rating is not None:
         query = query.filter(Tutor.rating >= min_rating)
+
+    # Apply keyword search (for both name and subject)
+    if keyword:  # If a keyword is provided, filter by tutor name or subject
+        keyword_lower = keyword.lower()
+        query = query.filter(
+            (Tutor.name.ilike(f"%{keyword_lower}%")) | (Tutor.subject.ilike(f"%{keyword_lower}%"))
+        )
 
     # Apply time filter if both start_time and end_time are provided
     if start_time and end_time:
@@ -197,11 +205,13 @@ def filter_tutors_subject():
 
         # If no tutors match the time filter, return an empty list
         filtered_tutors = filtered_tutors if filtered_tutors else []
+        
     else:
         # If no time filter provided, get all tutors from the query
         filtered_tutors = query.all()
 
     return render_template('find_tutors.html', tutors=filtered_tutors)
+
 if __name__ == '__main__':
     with app.app_context():
         db.create_all()  # create all tables in the database
