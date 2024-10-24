@@ -1,14 +1,13 @@
 name: CI for StudyConnect
-# structure similar to and cited from https://github.com/readme/guides/sothebys-github-actions
 on:
   push:
     branches:
       - main
-      - develop # main and develop branches will trigger CI.
+      - develop
   pull_request:
     branches:
       - main
-      - develop # ensure PRs to main/develop are tested
+      - develop
 
 jobs:
   test:
@@ -27,9 +26,16 @@ jobs:
         python -m pip install --upgrade pip
         pip install -r requirements.txt
 
-    - name: Configure in-memory SQLite for tests
+    - name: Set up SQLite database directory
       run: |
-        echo "export SQLALCHEMY_DATABASE_URI=sqlite:///:memory:" >> $GITHUB_ENV
+        mkdir -p instance  # create the instance directory if it doesn't exist
+        touch instance/tutors.db  # create the SQLite database file
+        chmod 777 instance/tutors.db  # set read/write permissions for the database file
+
+
+    - name: Set permissions for the instance directory
+      run: |
+        chmod -R 777 instance/  # ensure the application can read/write to the directory
 
     - name: Run tests
       run: |
