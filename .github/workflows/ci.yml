@@ -27,6 +27,10 @@ jobs:
         python -m pip install --upgrade pip
         pip install -r requirements.txt
 
+    - name: Configure in-memory SQLite for tests
+      run: |
+        echo "export SQLALCHEMY_DATABASE_URI=sqlite:///:memory:" >> $GITHUB_ENV
+
     - name: Run tests
       run: |
         pytest
