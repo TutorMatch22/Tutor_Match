@@ -1,21 +1,30 @@
-# # too many errors since i just have to set up the configuration management, I will comment out the rest of the code
-# import pytest
-# from main import app  
+import pytest
+from main import app, db, Tutor
 
-# @pytest.fixture
-# def client():
-#     app.config['TESTING'] = True
-#     with app.test_client() as client:
-#         yield client
-# # resolve errors here by adding html later
-# def test_home_page(client):
-#     """Test if the home page renders correctly."""
-#     response = client.get('/')
-#     assert response.status_code == 200 # means the page is loading correctly (http)
-#     assert b"Welcome" in response.data 
-# # just setting up configuration management
-# def test_tutors_page(client):
-#     """Test if the tutors page renders correctly."""
-#     response = client.get('/tutors')
-#     assert response.status_code == 200
-#     assert b"Tutor testing" in response.data  
+@pytest.fixture
+def client():
+    app.config['TESTING'] = True
+    with app.test_client() as client:
+        with app.app_context():
+            db.create_all()
+        yield client
+
+def test_tutor_page(client):
+    rv = client.get('/tutors')
+    assert rv.status_code == 200
+    assert b"Our Tutors" in rv.data
+
+def test_filter_tutors_subject(client):
+    rv = client.get('/find_tutors?subject=Math')
+    assert rv.status_code == 200
+    assert b"Math" in rv.data
+
+def test_filter_tutors_rating(client):
+    rv = client.get('/find_tutors?subject=Math&rating=4')
+    assert rv.status_code == 200
+    assert b"Math" in rv.data
+
+def test_tutor_time_filter(client):
+    rv = client.get('/find_tutors?subject=Math&start_time=09:00&end_time=11:00')
+    assert rv.status_code == 200
+    assert b"Math" in rv.data
