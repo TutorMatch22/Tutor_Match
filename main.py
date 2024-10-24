@@ -8,10 +8,11 @@ from faker import Faker # libraries for random tutor names
 import random
 from models import Tutor
 from datetime import datetime
-fake = Faker()
-app = Flask(__name__)
-app.config['SECRET_KEY'] = '\x07\x8a\x9b\xe2\xb2*\x1f\xbd>\xe8\x8aT\xa0\xec\xb9V%i7v\xb0h\x9f\x14'
 import os
+fake = Faker()
+app = Flask(__name__, template_folder=os.path.join(os.getcwd(), 'templates'))
+app.config['SECRET_KEY'] = '\x07\x8a\x9b\xe2\xb2*\x1f\xbd>\xe8\x8aT\xa0\xec\xb9V%i7v\xb0h\x9f\x14'
+
 basedir = os.path.abspath(os.path.dirname(__file__))
 app.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///{os.path.join(basedir, "instance", "tutors.db")}'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
