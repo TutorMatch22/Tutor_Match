@@ -42,7 +42,7 @@ def login():
             return redirect(url_for('home'))
         else:
             flash('Login Unsuccessful. Please check username and password.', 'danger')
-    return render_template('login.html', form=form)
+    return render_template('logIn.html', form=form)
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
