@@ -26,65 +26,41 @@
     <div class="fas fa-bars"></div>
 </header>
 <body>
-    <!-- Flash messages section -->
-    <section id="flash-messages">
-        {% with messages = get_flashed_messages(with_categories=true) %}
-            {% if messages %}
-                {% for category, message in messages %}
-                    <div class="alert alert-{{ category }}">{{ message }}</div>
-                {% endfor %}
-            {% endif %}
-        {% endwith %}
-    </section>
-
     <section class="signin-signup-body">
         <div class="container">
             <div class="signin-signup signup-half">
                 <form action="{{ url_for('register') }}" method="POST" class="signin-signup-form signup-form">
                     <h1 class="form-title">Sign Up</h1>
                     {{ form.hidden_tag() }}
-
-                    <!-- Username Input and Errors -->
                     <div class="input-field">
                         <i class="fas fa-user"></i>
                         {{ form.username(placeholder="Your username") }}
                         <label for="username" style="display: none;">{{ form.username.label }}</label>
-                        {% if form.username.errors %}
-                            <div class="alert alert-danger">
-                                {{ form.username.errors[0] }}
-                            </div>
-                        {% endif %}
                     </div>
-
                     <div class="input-field">
                         <i class="fas fa-lock"></i>
                         {{ form.password(placeholder="Your password") }}
                         <label for="password" style="display: none;">{{ form.password.label }}</label>
-                        {% if form.password.errors %}
-                            <div class="alert alert-danger">
-                                {{ form.password.errors[0] }}
-                            </div>
-                        {% endif %}
                     </div>
-
                     <div class="input-field">
                         <i class="fas fa-key"></i>
                         {{ form.confirm_password(placeholder="Confirm your password") }}
                         <label for="password" style="display: none;">{{ form.confirm_password.label }}</label>
-                        {% if form.confirm_password.errors %}
-                            <div class="alert alert-danger">
-                                {{ form.confirm_password.errors[0] }}
-                            </div>
-                        {% endif %}
                     </div>
-
-                    <!-- Submit Button -->
                     <div class="form-group">
                         {{ form.submit(class_="signin-signup-btn", value="Sign up") }}
                     </div>
-
-                    <p class="account-text">Already have an account?</p>
-                    <a href="{{ url_for('login') }}" id="sign-in-btn2">Log In</a>
+                    <p class="account-text">Already have an account?</p><a href="{{ url_for('login') }}" id="sign-in-btn2">Log In</a>
+                    <br>
+                    <section id="flash-messages">
+                        {% with messages = get_flashed_messages(with_categories=true) %}
+                            {% if messages %}
+                                {% for category, message in messages %}
+                                    <div class="alert alert-{{ category }}">{{ message }}</div>
+                                {% endfor %}
+                            {% endif %}
+                        {% endwith %}
+                    </section>
                 </form>
             </div>
             <div class="panels-container">

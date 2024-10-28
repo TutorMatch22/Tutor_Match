@@ -58,6 +58,11 @@ def register():
         #email message end
         flash(f'Account created for {form.username.data}!', 'success')
         return redirect(url_for('login'))
+    else:
+        for errors in form.errors.items():
+            for error in errors:
+                flash(f'{error}', 'danger')
+    
     return render_template('register.html', form=form)
 
 def generate_random_time_slots():

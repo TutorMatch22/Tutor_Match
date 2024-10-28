@@ -11,6 +11,8 @@ def password_requirements(form, field):
         raise ValidationError("Password must contain at least one uppercase letter")
     if not re.search(r'[a-z]', password):
         raise ValidationError("Password must contain at least one lowercase letter")
+    if not re.search(r'[0-9]', password) and not re.search(r'[!@#$%^&*(),.?":{}|<>]', password):
+        raise ValidationError("Password must contain at least one number and one special symbol")
     if not re.search(r'[0-9]', password):
         raise ValidationError("Password must contain at least one number")
     if not re.search(r'[!@#$%^&*(),.?":{}|<>]', password):
