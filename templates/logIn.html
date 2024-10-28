@@ -26,15 +26,6 @@
     <div class="fas fa-bars"></div>
 </header>
 <body>
-    <section id="flash-messages">
-        {% with messages = get_flashed_messages(with_categories=true) %}
-            {% if messages %}
-                {% for category, message in messages %}
-                    <div class="alert alert-{{ category }}">{{ message }}</div>
-                {% endfor %}
-            {% endif %}
-        {% endwith %}
-    </section>
     <section class="signin-signup-body">
         <div class="container">
             <div class="signin-signup signin-half">
@@ -56,6 +47,16 @@
                         {{ form.submit(class_="signin-signup-btn", value="Log in") }}
                     </div>
                     <p class="account-text">Don't have an account?</p><a href="{{ url_for('register') }}" id="sign-up-btn2">Sign Up</a>
+                    <br>
+                    <section id="flash-messages">
+                        {% with messages = get_flashed_messages(with_categories=true) %}
+                            {% if messages %}
+                                {% for category, message in messages %}
+                                    <div class="alert alert-{{ category }}">{{ message }}</div>
+                                {% endfor %}
+                            {% endif %}
+                        {% endwith %}
+                    </section>
                 </form>
             </div>
             <div class="panels-container">
