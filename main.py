@@ -71,7 +71,11 @@ def login_required(f):
 @app.route('/register', methods=['GET', 'POST'])
 def register():
     form = RegistrationForm()
-    if form.validate_on_submit(): # don't need constructor in User() since sqlalchemy has deafult one
+    if form.validate_on_submit(): 
+        existing_user = User.query.filter_by(username=form.username.data).first()
+        if existing_user:
+            flash(f'Username "{form.username.data}" is already taken. Please choose a different one.', 'danger')
+            return render_template('register.html', form=form)
         new_user = User(username=form.username.data, password=form.password.data)#email=form.email.data
         db.session.add(new_user)
         db.session.commit()
