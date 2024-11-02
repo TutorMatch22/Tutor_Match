@@ -20,7 +20,11 @@
             <li><a href="{{ url_for('filter_tutors_subject') }}">Find a Tutor</a></li>
             <li><a href="#">Pricing</a></li>
             <li><a href="#">Reviews</a></li>
-            <li><a href="{{ url_for('login') }}" class="login-btn">Log In</a></li>            
+            {% if session.get('user_id') %}
+                <li><a href="{{ url_for('logout') }}">Log Out</a></li>
+            {% else %}
+                <li><a href="{{ url_for('login') }}" class="login-btn">Log In</a></li>
+            {% endif %}         
         </ul>
     </nav>
     <div class="fas fa-bars"></div>

@@ -1,14 +1,15 @@
 # main.py
-from flask import Flask, render_template, request, redirect, url_for, flash
+from flask import Flask, render_template, request, redirect, url_for, flash, session
+
 from forms import LoginForm, RegistrationForm  # Import forms from forms.py
 from models import db, User, Tutor  # Import models from models.py
 from flask_mail import Mail, Message
 import random # for generating random tutor data
 from faker import Faker # libraries for random tutor names
-import random
 from models import Tutor
 from datetime import datetime
 import os
+from functools import wraps
 fake = Faker()
 app = Flask(__name__, template_folder=os.path.join(os.getcwd(), 'templates'))
 app.config['SECRET_KEY'] = '\x07\x8a\x9b\xe2\xb2*\x1f\xbd>\xe8\x8aT\xa0\xec\xb9V%i7v\xb0h\x9f\x14'
@@ -35,14 +36,37 @@ def home():
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     form = LoginForm()
+    next_page = request.args.get('next')  
     if form.validate_on_submit():
         user = User.query.filter_by(username=form.username.data).first()
         if user and user.password == form.password.data:
+            session['user_id'] = user.id
             flash(f'Logged in successfully as {form.username.data}!', 'success')
-            return redirect(url_for('home'))
+            # added next tp redirect to the page the user was trying to access before logging in
+            return redirect(next_page) if next_page else redirect(url_for('home'))
         else:
             flash('Login Unsuccessful. Please check username and password.', 'danger')
     return render_template('logIn.html', form=form)
+
+
+@app.route('/logout')
+def logout():
+    session.pop('user_id', None)  # we want to remove user ID from the session
+    flash('Logged out successfully!', 'info')
+    return redirect(url_for('home'))
+
+# basically how log in and log out works is that when a user logs in, their user ID is stored in the session so that the server knows that the user is logged in. When the user logs out, the user ID is removed from the session.
+# function to check if user is logged in
+
+def login_required(f):
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        if 'user_id' not in session:
+            flash('You need to log in to access this page.', 'danger')
+            return redirect(url_for('login', next=request.url))
+        return f(*args, **kwargs)
+    return decorated_function
+
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
@@ -164,6 +188,7 @@ def add_dummy_data():
         print("150 Tutor data has been added!")
 
 @app.route('/find_tutors', methods=['GET'])
+@login_required
 def filter_tutors_subject():
     subject = request.args.get('subject')
     min_rating = request.args.get('rating', type=float)  # Get the rating and convert to float
