@@ -246,6 +246,20 @@ def filter_tutors_subject():
         filtered_tutors = query.all()
 
     return render_template('find_tutors.html', tutors=filtered_tutors)
+@app.route('/book_session/<int:tutor_id>', methods=['GET', 'POST'])
+@login_required
+def book_session(tutor_id):
+    tutor = Tutor.query.get(tutor_id)  # Fetch the tutor using the tutor_id
+    if not tutor:
+        flash('Tutor not found.', 'danger')
+        return redirect(url_for('tutors'))
+
+    if request.method == 'POST':
+        # TODO: save booking details in the database
+        flash(f'Successfully booked a session with {tutor.name}!', 'success')
+        return redirect(url_for('tutors'))  # Redirect back to the tutors page
+
+    return render_template('book_session.html', tutor=tutor)
 
 if __name__ == '__main__':
     with app.app_context():
