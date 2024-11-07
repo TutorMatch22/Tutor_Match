@@ -36,11 +36,9 @@ def home():
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     form = LoginForm()
-    next_page = request.args.get('next')  
     if form.validate_on_submit():
         user = User.query.filter_by(username=form.username.data).first()
         if user and user.password == form.password.data:
-            session['user_id'] = user.id
             flash(f'Logged in successfully as {form.username.data}!', 'success')
             # added next tp redirect to the page the user was trying to access before logging in
             return redirect(next_page) if next_page else redirect(url_for('home'))
