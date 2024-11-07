@@ -634,7 +634,7 @@ body {
     margin: .75rem 0;
 }
 
-form label {
+.book-session form label {
     font-weight: bold;
     color: #333;
     margin-top: 10px;
@@ -642,8 +642,7 @@ form label {
     text-align: left;
 }
 
-form input[type="date"],
-form select {
+.book-session form input[type="date"], .book-session form select {
     width: 100%;
     padding: 10px;
     margin-top: 5px;
@@ -653,7 +652,7 @@ form select {
     font-size: 16px;
 }
 
-button[type="submit"] {
+.book-session button[type="submit"] {
     margin-top: 2rem;
     padding: 10px 20px;
     border: none;
@@ -665,7 +664,7 @@ button[type="submit"] {
     transition: background-color 0.3s ease;
 }
 
-button[type="submit"]:hover {
+.book-session button[type="submit"]:hover {
     background-color: #45a049;
 }
 
