@@ -36,9 +36,11 @@ def home():
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     form = LoginForm()
+    next_page = request.args.get('next')  
     if form.validate_on_submit():
         user = User.query.filter_by(username=form.username.data).first()
         if user and user.password == form.password.data:
+            session['user_id'] = user.id
             flash(f'Logged in successfully as {form.username.data}!', 'success')
             # added next tp redirect to the page the user was trying to access before logging in
             return redirect(next_page) if next_page else redirect(url_for('home'))
@@ -244,17 +246,27 @@ def filter_tutors_subject():
         filtered_tutors = query.all()
 
     return render_template('find_tutors.html', tutors=filtered_tutors)
+
 @app.route('/book_session/<int:tutor_id>', methods=['GET', 'POST'])
 @login_required
 def book_session(tutor_id):
     tutor = Tutor.query.get(tutor_id)  # Fetch the tutor using the tutor_id
+
     if not tutor:
         flash('Tutor not found.', 'danger')
         return redirect(url_for('tutors'))
 
     if request.method == 'POST':
+        bookedDate = request.form['date']
+        selected_date = datetime.strptime(bookedDate, '%Y-%m-%d').date()
+        current_date = datetime.now().date()
+
+        if selected_date < current_date:
+            flash('Please select a date that is today or in the future.', 'danger')
+            return redirect(url_for('book_session', tutor_id=tutor_id))
+
         # TODO: save booking details in the database
-        flash(f'Successfully booked a session with {tutor.name}!', 'success')
+        flash(f'Successfully booked a session with {tutor.name} on {bookedDate}!', 'success')
         return redirect(url_for('tutors'))  # Redirect back to the tutors page
 
     return render_template('book_session.html', tutor=tutor)

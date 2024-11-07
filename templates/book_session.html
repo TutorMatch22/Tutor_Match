@@ -4,35 +4,73 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Book Session with {{ tutor.name }}</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body>
 <header>
     <a href="{{ url_for('home') }}" class="logo"><i class="fas fa-graduation-cap"></i>TutorMatch</a>
+    <nav class="navbar">
+        <ul>
+            <li class="active"><a href="{{ url_for('home') }}">Home</a></li>
+            <li><a href="{{ url_for('tutors') }}">Our Tutors</a></li>
+            <li><a href="{{ url_for('filter_tutors_subject') }}">Find a Tutor</a></li>
+            {% if session.get('user_id') %}
+                <li><a href="{{ url_for('logout') }}" class="login-btn">Log Out</a></li>
+            {% else %}
+                <li><a href="{{ url_for('login') }}" class="login-btn">Log In</a></li>
+            {% endif %}
+
+        </ul>
+    </nav>
+    <div class="fas fa-bars"></div>
 </header>
 
-<section>
-    <h1>Book a Session with {{ tutor.name }}</h1>
-    <p><strong>Subject:</strong> {{ tutor.subject }}</p>
-    <p><strong>Available Time Slots:</strong> {{ tutor.time_slots }}</p>
+<section class="book-session">
+    <h2>Book a Session with {{ tutor.name }}</h2>
+    <div class="box-container">
+        <div class="box">
+            <div class="book-session-content">
+                <img src="{{ url_for('static', filename=tutor.image_path.split('static/', 1)[-1]) }}" alt="Profile image of {{ tutor.name }}">
 
-    <form method="POST">
-        <label for="date">Select Date:</label>
-        <input type="date" name="date" required>
 
-        <label for="time_slot">Select Time Slot:</label>
-        <select name="time_slot" required>
-            {% for slot in tutor.time_slots.split(', ') %}
-                <option value="{{ slot }}">{{ slot }}</option>
-            {% endfor %}
-        </select>
+                <p><strong>Subject:</strong> {{ tutor.subject }}</p>
+                <p><strong>Available Time Slots:</strong> {{ tutor.time_slots }}</p>
 
-        <button type="submit">Confirm Booking</button>
-    </form>
+                <form method="POST">
+                    <label for="date">Select Date:</label>
+                    <input type="date" name="date" required>
+                    <br>
+                    <label for="time_slot">Select Time Slot:</label>
+                    <select name="time_slot" required>
+                        {% for slot in tutor.time_slots.split(', ') %}
+                            <option value="{{ slot }}">{{ slot }}</option>
+                        {% endfor %}
+                    </select>
+                    <br>
+                    <button type="submit">Confirm Booking</button>
+                </form>
+
+                <section id="flash-messages">
+                    {% with messages = get_flashed_messages(with_categories=true) %}
+                        {% if messages %}
+                            {% for category, message in messages %}
+                                <div class="alert alert-{{ category }}">{{ message }}</div>
+                            {% endfor %}
+                        {% endif %}
+                    {% endwith %}
+                </section>
+            </div>
+        </div>
+    </div>
 </section>
-
+<!-- 
 <footer>
     <p>&copy; 2024 TutorMatch. All rights reserved.</p>
-</footer>
+</footer> -->
 </body>
 </html>

@@ -395,7 +395,7 @@ body {
 }
 
 /* TUTORS.HTML & FIND_TUTORS.HTML */
-.all-tutors h1, .find-tutors h1 {
+.all-tutors h1, .find-tutors h1{
     font-size: 5rem;
     font-weight: 800;
     color: var(--red);
@@ -419,6 +419,11 @@ body {
     box-shadow: 0 .1rem .3rem rgba(0,0,0,.3);
     margin: 3rem;
     border-radius: 1rem;
+    position: relative;
+}
+
+.all-tutors .box-container .box {
+    min-height: 38rem;
 }
 
 .all-tutors .box-container .box img, .find-tutors .box-container .box img {
@@ -452,6 +457,23 @@ body {
     font-size: 1.25rem;
     padding-top: .25rem;
     text-align: justify;
+}
+
+.all-tutors .session-btn {
+    background-color: #4CAF50;
+    color: #fff;
+    padding: 0.75rem 1.5rem;
+    border-radius: 0.5rem;
+    text-decoration: none;
+    position: absolute; 
+    bottom: 1.5rem; 
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 1.25rem;
+}
+
+.all-tutors .session-btn:hover {
+    background-color: #45a049;
 }
 
 .find-tutors .find-tutors-container {
@@ -569,6 +591,84 @@ body {
     cursor: pointer;
     margin-top: .5rem;
 } */
+
+/* BOOK-SESSION.HTML */
+.book-session {
+    max-width: 50rem;
+    margin: 9rem auto;
+    padding: 1.5rem;
+    border: 1px solid #ddd;
+    border-radius: 1rem;
+    background-color: #f9f9f9;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.book-session h2 {
+    font-size: 2.5rem;
+    color: #333;
+    margin-bottom: 1.5rem;
+}
+
+.book-session .box-container {
+    display: flex;
+    justify-content: center;
+}
+
+.book-session .box-container .box {
+    padding: 2rem;
+    border-radius: .75rem;
+    background-color: var(--pink);
+    max-width: 35rem;
+}
+
+.book-session-content img {
+    width: 175px;
+    border-radius: 50%;
+    margin-bottom: 2rem;
+}
+
+.book-session-content p {
+    font-size: 1.35rem;
+    color: #444;
+    margin: .75rem 0;
+}
+
+form label {
+    font-weight: bold;
+    color: #333;
+    margin-top: 10px;
+    display: block;
+    text-align: left;
+}
+
+form input[type="date"],
+form select {
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    margin-bottom: 15px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 16px;
+}
+
+button[type="submit"] {
+    margin-top: 2rem;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    background-color: #4CAF50;
+    color: #fff;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button[type="submit"]:hover {
+    background-color: #45a049;
+}
+
 
 /* media queries */
 @media only screen and (max-width: 1023px) and (min-width: 768px) {
@@ -727,7 +827,7 @@ body {
 
 @media only screen and (max-width: 767px){
     html {
-        font-size: 50%;
+        font-size: 60%;
     }
 
     header .fa-bars {
@@ -901,5 +1001,18 @@ body {
     
     .find-tutors .search-container .input-field, .find-tutors .sort-container .sort-field select {
         margin: 0 auto;
+    }
+
+    .book-session {
+        margin: 9rem auto;
+        text-align: center;
+    }
+
+    .book-session h2 {
+        font-size: 2rem;
+    }
+
+    .book-session img {
+        width: 125px;
     }
 }
