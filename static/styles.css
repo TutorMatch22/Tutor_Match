@@ -216,7 +216,6 @@ header .fa-times {
 
 body {
     background-color: var(--cream);
-    height: 1000px;
 }
 
 .signin-signup-body {
@@ -426,6 +425,10 @@ body {
     min-height: 38rem;
 }
 
+.find-tutors .box-container .box {
+    min-height: 36rem;
+}
+
 .all-tutors .box-container .box img, .find-tutors .box-container .box img {
     height: auto;
     width: 100px;
@@ -459,7 +462,7 @@ body {
     text-align: justify;
 }
 
-.all-tutors .session-btn {
+.all-tutors .session-btn, .find-tutors .session-btn {
     background-color: #4CAF50;
     color: #fff;
     padding: 0.75rem 1.5rem;
@@ -472,7 +475,7 @@ body {
     font-size: 1.25rem;
 }
 
-.all-tutors .session-btn:hover {
+.all-tutors .session-btn:hover, .find-tutors .session-btn:hover {
     background-color: #45a049;
 }
 
@@ -484,7 +487,7 @@ body {
 }
 
 .find-tutors .find-tutors-container .filter-container {
-    flex: 0 0 20%;
+    flex: 0 0 10%;
     font-size: 1.5rem;
 }
 
@@ -564,11 +567,6 @@ body {
     width: 35rem;
 }
 
-.find-tutors .box-container .box:hover {
-    border: 2px solid #fff;
-    cursor: pointer;
-}
-
 /* .find-tutors .filter-dropdown {
     background: var(--red);
     color: #fff;
@@ -596,18 +594,17 @@ body {
 .book-session {
     max-width: 50rem;
     margin: 9rem auto;
-    padding: 1.5rem;
+    padding: 2.5rem;
     border: 1px solid #ddd;
     border-radius: 1rem;
     background-color: #f9f9f9;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     text-align: center;
 }
 
 .book-session h2 {
     font-size: 2.5rem;
     color: #333;
-    margin-bottom: 1.5rem;
+    margin-bottom: 8rem;
 }
 
 .book-session .box-container {
@@ -619,13 +616,14 @@ body {
     padding: 2rem;
     border-radius: .75rem;
     background-color: var(--pink);
-    max-width: 35rem;
+    width: 33rem;
 }
 
 .book-session-content img {
     width: 175px;
     border-radius: 50%;
     margin-bottom: 2rem;
+    margin-top: -9rem;
 }
 
 .book-session-content p {
@@ -794,23 +792,29 @@ body {
         color: #777;
     }
 
-    .all-tutors .box-container .box, .find-tutors .box-container .box {
+    .all-tutors .box-container .box {
         width: 60rem;
         padding: 2rem;
         height: auto;
     }
 
+    .find-tutors .box-container .box {
+        width: 60rem;
+        min-height: 32rem;
+        padding: 2rem;
+        height: auto;
+    }
+
     .find-tutors .find-tutors-container {
-        margin: 0;
-        width: 100%;
-        display: flex;
         margin: 0 auto;
+        display: flex;
         flex-direction: column;
     }
 
     .find-tutors .find-tutors-container .filter-container {
-        width: 60%;
-        margin: 0 auto 2rem auto;
+        width: 100%;
+        padding-left: 10rem;
+        margin-bottom: 1rem;
     }
 
     .find-tutors .find-tutors-container .filter-container .filter-field {
@@ -820,7 +824,7 @@ body {
     .find-tutors .search-container, .find-tutors .sort-container  {
         margin: 1rem auto;
         display: block;
-        width: 90%;
+        width: 75%;
     }
 }
 
@@ -969,29 +973,35 @@ body {
         color: #777;
     }
 
-    .all-tutors .box-container .box, .find-tutors .box-container .box {
+    .all-tutors .box-container .box {
         width: 40rem;
         padding: 2rem;
         height: auto;
     }
 
+    .find-tutors .box-container .box {
+        width: 33rem;
+        padding: 2rem;
+        height: auto;
+        min-height: 38rem;
+    }
+
     .find-tutors .find-tutors-container {
-        margin: 0;
-        width: 100%;
-        display: flex;
         margin: 0 auto;
+        display: flex;
         flex-direction: column;
     }
 
     .find-tutors .find-tutors-container .filter-container {
-        width: 60%;
-        margin: 0 auto 2rem auto;
+        width: 100%;
+        padding-left: 5rem;
+        margin-bottom: 1rem;
     }
 
     .find-tutors .search-container, .find-tutors .sort-container  {
         margin: 1rem auto;
         display: block;
-        width: 90%;
+        width: 80%;
     }
 
     .find-tutors .find-tutors-container .filter-container .filter-field {
@@ -1005,6 +1015,13 @@ body {
     .book-session {
         margin: 9rem auto;
         text-align: center;
+    }
+
+    .book-session {
+        width: 100%;
+        padding: 1.5rem;
+        background-color: transparent;
+        border: none;
     }
 
     .book-session h2 {

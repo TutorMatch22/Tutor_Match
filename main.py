@@ -191,6 +191,16 @@ def add_dummy_data():
         db.session.commit()
         print("150 Tutor data has been added!")
 
+def sort_tutors(query, sort_by):
+    if sort_by == "name":
+        query = sorted(query, key=lambda tutor: tutor.name)
+    elif sort_by == "rating":
+        query = sorted(query, key=lambda tutor: tutor.rating, reverse=True)
+    elif sort_by == "reviews":
+        query = sorted(query, key=lambda tutor: tutor.reviews, reverse=True)
+
+    return query
+
 @app.route('/find_tutors', methods=['GET'])
 @login_required
 def filter_tutors_subject():
@@ -199,9 +209,17 @@ def filter_tutors_subject():
     start_time = request.args.get('start_time')
     end_time = request.args.get('end_time')
     keyword = request.args.get('keyword')
+    sort_by = request.args.get('sort_by')
 
     # Initialize the query
     query = Tutor.query
+
+    # Apply keyword search (for both name and subject)
+    if keyword:  # If a keyword is provided, filter by tutor name or subject
+        keyword_lower = keyword.lower()
+        query = query.filter(
+            (Tutor.name.ilike(f"%{keyword_lower}%")) | (Tutor.subject.ilike(f"%{keyword_lower}%"))
+        )
 
     # Apply subject filter if provided
     if subject:
@@ -210,13 +228,6 @@ def filter_tutors_subject():
     # Apply rating filter if provided
     if min_rating is not None:
         query = query.filter(Tutor.rating >= min_rating)
-
-    # Apply keyword search (for both name and subject)
-    if keyword:  # If a keyword is provided, filter by tutor name or subject
-        keyword_lower = keyword.lower()
-        query = query.filter(
-            (Tutor.name.ilike(f"%{keyword_lower}%")) | (Tutor.subject.ilike(f"%{keyword_lower}%"))
-        )
 
     # Apply time filter if both start_time and end_time are provided
     if start_time and end_time:
@@ -238,14 +249,16 @@ def filter_tutors_subject():
                     filtered_tutors.append(tutor)
                     break  # No need to check other slots for this tutor once a match is found
 
-        # If no tutors match the time filter, return an empty list
-        filtered_tutors = filtered_tutors if filtered_tutors else []
+        query = filtered_tutors
         
     else:
-        # If no time filter provided, get all tutors from the query
-        filtered_tutors = query.all()
+        query = query.all()
 
-    return render_template('find_tutors.html', tutors=filtered_tutors)
+    # Apply sorting using the new function
+    if sort_by:
+        query = sort_tutors(query, sort_by)
+
+    return render_template('find_tutors.html', tutors=query)
 
 @app.route('/book_session/<int:tutor_id>', methods=['GET', 'POST'])
 @login_required

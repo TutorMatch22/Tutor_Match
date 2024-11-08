@@ -39,23 +39,19 @@ $(document).ready(function(){
             event.preventDefault(); 
             this.submit(); 
         }
-    });
+    });    
 
-    // Ensure all fields are filled when submitting Filter Tutors button
-    function validateFilterForm() {
-        const subject = document.getElementById('subject').value;
-        const rating = document.getElementById('rating').value;
-        const startTime = document.getElementById('start_time').value;
-        const endTime = document.getElementById('end_time').value;
+    document.getElementById('sort-by').addEventListener('change', function() {
+        const sortBy = this.value;
+        const urlParams = new URLSearchParams(window.location.search);
     
-        // Check if all fields are filled for the filter form
-        if (!subject || !rating || !startTime || !endTime) {
-            alert("Please fill out all fields in the filter form.");
-            return false; // Prevent form submission
-        }
+        // Update the `sort_by` parameter without removing existing filters
+        urlParams.set('sort_by', sortBy);
     
-        return true; // Allow form submission
-    };    
+        // Redirect to the updated URL with all current filters and the new sort option
+        window.location.href = `${window.location.pathname}?${urlParams.toString()}`;
+    });
+    
 });
 
 

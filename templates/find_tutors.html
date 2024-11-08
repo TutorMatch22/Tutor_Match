@@ -73,16 +73,14 @@
                 </form>
             </div>
             <div class="sort-container">
-                <form action="{{ url_for('filter_tutors_subject') }}" method="GET">
-                    <div class="sort-field">
-                        <select name="sort_by" id="sort-by">
-                            <option value="">--Sort by--</option>
-                            <option value="name">Name</option>
-                            <option value="rating">Rating</option>
-                            <option value="reviews">Number of Reviews</option>
-                        </select>
-                    </div>
-                </form>
+                <div class="sort-field">
+                    <select name="sort_by" id="sort-by">
+                        <option value="">--Sort by--</option>
+                        <option value="name">Name</option>
+                        <option value="rating">Rating</option>
+                        <option value="reviews">Number of Reviews</option>
+                    </select>
+                </div>
             </div>
             <!-- <button class="filter-dropdown">Filter Tutors</button> -->
             <div class="box-container">
@@ -97,7 +95,7 @@
                             <p><strong>Time Slots:</strong> {{ tutor.time_slots }}</p>
                             <p><strong>Review:</strong> {{ tutor.review_text }}</p>
                         </div>
-                        <!-- <button class="book-btn">Book Now???</button> -->
+                        <a href="{{ url_for('book_session', tutor_id=tutor.id) }}" class="session-btn">Book a Session</a> <!-- Booking Button -->
                     </div>
                 {% endfor %}
             </div>
