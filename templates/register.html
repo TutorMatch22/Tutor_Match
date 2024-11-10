@@ -31,7 +31,7 @@
     <section class="signin-signup-body">
         <div class="container">
             <div class="signin-signup signup-half">
-                <form action="{{ url_for('register') }}" method="POST" class="signin-signup-form signup-form">
+                <form action="{{ url_for('register') }}" method="POST" class="signin-signup-form signup-form" enctype="multipart/form-data">
                     <h1 class="form-title">Sign Up</h1>
                     {{ form.hidden_tag() }}
                     <div class="input-field">
@@ -48,6 +48,10 @@
                         <i class="fas fa-key"></i>
                         {{ form.confirm_password(placeholder="Confirm your password") }}
                         <label for="password" style="display: none;">{{ form.confirm_password.label }}</label>
+                    </div>
+                    <div>
+                        <h4 style="padding-bottom: .25rem;">Select your profile picture:</h4>
+                        {{ form.photo }}
                     </div>
                     <div class="form-group">
                         {{ form.submit(class_="signin-signup-btn", value="Sign up") }}

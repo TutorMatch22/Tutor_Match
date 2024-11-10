@@ -1,20 +1,22 @@
 # main.py
 from flask import Flask, render_template, request, redirect, url_for, flash, session
-
 from forms import LoginForm, RegistrationForm  # Import forms from forms.py
 from models import db, User, Tutor  # Import models from models.py
 from flask_mail import Mail, Message
+from flask_uploads import UploadSet, configure_uploads, IMAGES, patch_request_class
+from flask_login import current_user, LoginManager
+from werkzeug.utils import secure_filename
 import random # for generating random tutor data
 from faker import Faker # libraries for random tutor names
-from models import Tutor
 from datetime import datetime
-import os
 from functools import wraps
+import os
 fake = Faker()
-app = Flask(__name__, template_folder=os.path.join(os.getcwd(), 'templates'))
-app.config['SECRET_KEY'] = '\x07\x8a\x9b\xe2\xb2*\x1f\xbd>\xe8\x8aT\xa0\xec\xb9V%i7v\xb0h\x9f\x14'
+app = Flask(__name__, static_folder='static', template_folder=os.path.join(os.getcwd(), 'templates'))
 
 basedir = os.path.abspath(os.path.dirname(__file__))
+app.config['SECRET_KEY'] = '\x07\x8a\x9b\xe2\xb2*\x1f\xbd>\xe8\x8aT\xa0\xec\xb9V%i7v\xb0h\x9f\x14'
+app.config['UPLOADED_PHOTOS_DEST'] = os.path.join(basedir, 'static/users-profiles')
 app.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///{os.path.join(basedir, "instance", "tutors.db")}'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
@@ -26,12 +28,15 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 #app.config['MAIL_PASSWORD'] = 'TutorMatch$1234'  # **Add your email password**
 
 #mail = Mail(app)
+
 # initialize the database with the Flask app
 db.init_app(app)
 
 @app.route('/')
 def home():
-    return render_template('index.html')
+    user_id = session.get('user_id')
+    user = User.query.get(user_id) if user_id else None
+    return render_template('index.html', user=user)
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -41,13 +46,13 @@ def login():
         user = User.query.filter_by(username=form.username.data).first()
         if user and user.password == form.password.data:
             session['user_id'] = user.id
+            print(user.photo_path)
             flash(f'Logged in successfully as {form.username.data}!', 'success')
             # added next tp redirect to the page the user was trying to access before logging in
             return redirect(next_page) if next_page else redirect(url_for('home'))
         else:
             flash('Login Unsuccessful. Please check username and password.', 'danger')
     return render_template('logIn.html', form=form)
-
 
 @app.route('/logout')
 def logout():
@@ -67,6 +72,10 @@ def login_required(f):
         return f(*args, **kwargs)
     return decorated_function
 
+photos = UploadSet('photos', IMAGES)
+configure_uploads(app, photos)
+patch_request_class(app)
+os.makedirs(app.config['UPLOADED_PHOTOS_DEST'], exist_ok=True)
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
@@ -76,14 +85,29 @@ def register():
         if existing_user:
             flash(f'Username "{form.username.data}" is already taken. Please choose a different one.', 'danger')
             return render_template('register.html', form=form)
-        new_user = User(username=form.username.data, password=form.password.data)#email=form.email.data
+
+        photo = form.photo.data
+        filename = secure_filename(photo.filename)
+        username = form.username.data
+        photo_path = os.path.join(app.config['UPLOADED_PHOTOS_DEST'], username + filename)
+        photo.save(photo_path)  # Save to server
+        
+        # Store relative path or filename in the database
+        new_user = User(
+            username=form.username.data,
+            password=form.password.data,
+            photo_path=f"users-profiles/{username + filename}"
+        )
+        
         db.session.add(new_user)
         db.session.commit()
+
         #email message start
         #msg = Message('Welcome to Tutor Match!', recipients=[form.email.data])
         #msg.body = f'Hello {form.username.data},\n\nThank you for registering with Tutor Match!'
         #mail.send(msg)
         #email message end
+    
         flash(f'Account created for {form.username.data}!', 'success')
         return redirect(url_for('login'))
     else:
@@ -91,6 +115,7 @@ def register():
             for error in errors:
                 flash(f'{error}', 'danger')
     
+    # Render the profile page with the user data and image path
     return render_template('register.html', form=form)
 
 def generate_random_time_slots():
@@ -124,7 +149,7 @@ def generate_random_time_slots():
 
     return ', '.join(slots)
 
-image_folder = 'static/tutors-profiles' # folder containing profile images
+image_folder = 'static/tutors-profiles' # folder containing tutor profile images
 
 # all image files in the directory
 def get_image_list(folder):
@@ -135,7 +160,6 @@ def truncate_text(text, max_length=100):
     if len(text) > max_length:
         return text[:max_length] + '...'
     return text
-
 
 @app.route('/tutors')
 def tutors():

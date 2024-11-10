@@ -17,6 +17,24 @@ $(document).ready(function(){
         }
     });
 
+    // Toggle dropdown visibility
+    function toggleDropdown() {
+        document.getElementById("myDropdown").classList.toggle("show");
+    }
+    
+    // Close the dropdown if clicked outside
+    window.onclick = function (event) {
+        if (!event.target.matches('.dropbtn')) {
+            let dropdowns = document.getElementsByClassName("dropdown-content");
+            for (let i = 0; i < dropdowns.length; i++) {
+                let openDropdown = dropdowns[i];
+                if (openDropdown.classList.contains('show')) {
+                openDropdown.classList.remove('show');
+                }
+            }
+        }
+    }
+
     // Show the search arrow when search bar is not empty
     $('#keyword').on('input', function() {
         const inputVal = $(this).val();

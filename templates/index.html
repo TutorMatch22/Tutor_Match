@@ -19,7 +19,17 @@
             <li><a href="{{ url_for('tutors') }}">Our Tutors</a></li>
             <li><a href="{{ url_for('filter_tutors_subject') }}">Find a Tutor</a></li>
             {% if session.get('user_id') %}
-                <li><a href="{{ url_for('logout') }}" class="login-btn">Log Out</a></li>
+                <div class="dropdown">
+                    <img src="{{  url_for('static', filename=user.photo_path) }}" alt="Profile Image" class="dropbtn user-profile" onclick="toggleDropdown()">
+                    <div class="dropdown-content" id="myDropdown">
+                        <a href="{{ url_for('logout') }}">Log Out</a>
+                        <a href="#">My sessions</a>
+                    </div>
+                </div>
+                <div class="none-dropdown">
+                    <li><a href="{{ url_for('logout') }}">Log Out</a></li>
+                    <li><a href="#">My sessions</a></li>
+                </div>
             {% else %}
                 <li><a href="{{ url_for('login') }}" class="login-btn">Log In</a></li>
             {% endif %}

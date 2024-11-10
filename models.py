@@ -15,7 +15,7 @@ class User(db.Model):
     username = db.Column(db.String(100), nullable=False, unique=True)
     #email = db.Column(db.String(255), unique=True, nullable=False)#email added 120->200
     password = db.Column(db.String(100), nullable=False)
-
+    photo_path = db.Column(db.String(120), nullable=False)
 
 class Tutor(db.Model):
     id = db.Column(db.Integer, primary_key=True)
