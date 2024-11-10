@@ -40,6 +40,9 @@ def home():
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
+    user_id = session.get('user_id')
+    user = User.query.get(user_id) if user_id else None
+
     form = LoginForm()
     next_page = request.args.get('next')  
     if form.validate_on_submit():
@@ -52,7 +55,7 @@ def login():
             return redirect(next_page) if next_page else redirect(url_for('home'))
         else:
             flash('Login Unsuccessful. Please check username and password.', 'danger')
-    return render_template('logIn.html', form=form)
+    return render_template('logIn.html', form=form, user=user)
 
 @app.route('/logout')
 def logout():
@@ -79,6 +82,9 @@ os.makedirs(app.config['UPLOADED_PHOTOS_DEST'], exist_ok=True)
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
+    user_id = session.get('user_id')
+    user = User.query.get(user_id) if user_id else None
+
     form = RegistrationForm()
     if form.validate_on_submit(): 
         existing_user = User.query.filter_by(username=form.username.data).first()
@@ -116,7 +122,7 @@ def register():
                 flash(f'{error}', 'danger')
     
     # Render the profile page with the user data and image path
-    return render_template('register.html', form=form)
+    return render_template('register.html', form=form, user=user)
 
 def generate_random_time_slots():
     slots = []
@@ -163,9 +169,12 @@ def truncate_text(text, max_length=100):
 
 @app.route('/tutors')
 def tutors():
+    user_id = session.get('user_id')
+    user = User.query.get(user_id) if user_id else None
+
     # fetch all tutors from the database (query)
     all_tutors = Tutor.query.all()
-    return render_template('tutors.html', tutors=all_tutors)
+    return render_template('tutors.html', tutors=all_tutors, user=user)
 
 # rm instance/tutors.db to reset the database
 def add_dummy_data():
@@ -228,6 +237,9 @@ def sort_tutors(query, sort_by):
 @app.route('/find_tutors', methods=['GET'])
 @login_required
 def filter_tutors_subject():
+    user_id = session.get('user_id')
+    user = User.query.get(user_id) if user_id else None
+
     subject = request.args.get('subject')
     min_rating = request.args.get('rating', type=float)  # Get the rating and convert to float
     start_time = request.args.get('start_time')
@@ -282,11 +294,14 @@ def filter_tutors_subject():
     if sort_by:
         query = sort_tutors(query, sort_by)
 
-    return render_template('find_tutors.html', tutors=query)
+    return render_template('find_tutors.html', tutors=query, user=user)
 
 @app.route('/book_session/<int:tutor_id>', methods=['GET', 'POST'])
 @login_required
 def book_session(tutor_id):
+    user_id = session.get('user_id')
+    user = User.query.get(user_id) if user_id else None
+
     tutor = Tutor.query.get(tutor_id)  # Fetch the tutor using the tutor_id
 
     if not tutor:
@@ -306,7 +321,7 @@ def book_session(tutor_id):
         flash(f'Successfully booked a session with {tutor.name} on {bookedDate}!', 'success')
         return redirect(url_for('tutors'))  # Redirect back to the tutors page
 
-    return render_template('book_session.html', tutor=tutor)
+    return render_template('book_session.html', tutor=tutor, user=user)
 
 if __name__ == '__main__':
     with app.app_context():
