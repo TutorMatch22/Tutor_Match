@@ -25,12 +25,13 @@
                     <div class="dropdown-content" id="myDropdown">
                         <a href="{{ url_for('logout') }}">Log Out</a>
                         <a href="{{ url_for('view_bookings') }}">My Sessions</a>
+                        <a href="{{ url_for('user_reviews') }}">View Reviews</a>
                     </div>
                 </div>
                 <div class="none-dropdown">
                     <li><a href="{{ url_for('logout') }}">Log Out</a></li>
                     <li><a href="{{ url_for('view_bookings') }}">My Sessions</a></li> <!-- Link to My Sessions -->
-
+                    <li><a href="{{ url_for('user_reviews') }}">View Reviews</a></li>
                 </div>
             {% else %}
                 <li><a href="{{ url_for('login') }}" class="login-btn">Log In</a></li>
@@ -53,6 +54,8 @@
                     <p><strong>Time Slots:</strong> {{ tutor.time_slots }}</p>
                     <p><strong>Review:</strong> {{ tutor.review_text }}</p>
                     <a href="{{ url_for('book_session', tutor_id=tutor.id) }}" class="session-btn">Book a Session</a> <!-- Booking Button -->
+                    <a href="{{ url_for('add_review', tutor_id=tutor.id) }}" class="btn">Add Review</a>
+                    <a href="{{ url_for('tutor_reviews', tutor_id=tutor.id) }}" class="btn">View Reviews</a>
                 </div>
             </div>
         {% endfor %}

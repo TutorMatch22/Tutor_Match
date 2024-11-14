@@ -3,10 +3,10 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>My Sessions - TutorMatch</title>
-   <link rel="preconnect" href="https://fonts.googleapis.com">
+    <title>{{ tutor.name }}'s Reviews - TutorMatch</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900&family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -35,30 +35,19 @@
         </nav>
     </header>
 
-    <section class="my-sessions">
-        <h2>My Sessions</h2>
-        {% if bookings %}
-            <table>
-                <thead>
-                    <tr>
-                        <th>Tutor</th>
-                        <th>Booked Date</th>
-                        <th>Booked Time</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for booking in bookings %}
-                        <tr>
-                            <td>{{ booking.tutor.name }}</td>  <!-- Assuming 'name' is the tutor's name field -->
-                            <td>{{ booking.booked_date }}</td>
-                            <td>{{ booking.booked_time }}</td>
-                        </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        {% else %}
-            <p>You have no bookings yet.</p>
-        {% endif %}
+    <section class="tutor-reviews">
+        <h2>Reviews for {{ tutor.name }}</h2>
+        <ul>
+            {% for review in tutor.review_entries %}
+                <li>
+                    <strong>Rating:</strong> {{ review.rating }} Stars <br>
+                    <strong>Review:</strong> {{ review.description }} <br>
+                    <small>by {{ review.user.username }} on {{ review.timestamp.strftime('%Y-%m-%d') }}</small>
+                </li>
+            {% else %}
+                <li>No reviews yet.</li>
+            {% endfor %}
+        </ul>
     </section>
 
     <script src="{{ url_for('static', filename='js/main.js') }}"></script>

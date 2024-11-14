@@ -1,7 +1,7 @@
 # main.py
 from flask import Flask, render_template, request, redirect, url_for, flash, session
 from forms import LoginForm, RegistrationForm  # Import forms from forms.py
-from models import db, User, Tutor, Booking  # Import models from models.py
+from models import db, User, Tutor, Booking, Review, calculate_new_rating  # Import models from models.py
 from flask_mail import Mail, Message
 from flask_uploads import UploadSet, configure_uploads, IMAGES, patch_request_class
 from flask_login import current_user, LoginManager
@@ -368,6 +368,45 @@ def view_bookings():
 
     # Render the bookings in a template
     return render_template('view_bookings.html', bookings=bookings, user=user)
+
+@app.route('/add_review/<int:tutor_id>', methods=['GET', 'POST'])
+@login_required
+def add_review(tutor_id):
+    user_id = session.get('user_id')
+    user = User.query.get(user_id) if user_id else None
+
+    tutor = Tutor.query.get_or_404(tutor_id)
+    if request.method == 'POST':
+        rating = int(request.form['rating'])
+        description = request.form['description']
+        review = Review(rating=rating, description=description, tutor_id=tutor.id, user_id=user.id)
+        db.session.add(review)
+        calculate_new_rating(tutor, rating)
+        db.session.commit()
+        flash('Review added successfully!', 'success')
+        return redirect(url_for('tutors'))
+    return render_template('add_review.html', tutor=tutor, user=user)
+
+@app.route('/tutor_reviews/<int:tutor_id>')
+@login_required
+def tutor_reviews(tutor_id):
+    user_id = session.get('user_id')
+    user = User.query.get(user_id) if user_id else None
+
+    tutor = Tutor.query.get_or_404(tutor_id)
+    reviews = tutor.review_entries  
+
+    return render_template('tutor_reviews.html', tutor=tutor, reviews=reviews, user=user)
+
+
+@app.route('/user_reviews')
+@login_required
+def user_reviews():
+    user_id = session.get('user_id')
+    user = User.query.get(user_id) if user_id else None
+
+    reviews = Review.query.filter_by(user_id=user.id).all()
+    return render_template('user_reviews.html', reviews=reviews, user=user)
 
 
 if __name__ == '__main__':

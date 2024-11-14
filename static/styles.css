@@ -273,6 +273,11 @@ body {
     position: relative;
     padding-top: 6rem;
 }
+.add-review, .tutor-reviews, .user-reviews {
+    padding-top: 80px; 
+}
+
+
 
 .container { /* container is a flexbox */
     display: flex; /* Use flex to align children */

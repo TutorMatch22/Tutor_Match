@@ -1,4 +1,6 @@
 from flask_sqlalchemy import SQLAlchemy
+from datetime import datetime
+
 
 db = SQLAlchemy()
 
@@ -27,7 +29,7 @@ class Tutor(db.Model):
     reviews = db.Column(db.Integer, nullable=False)  # Number of reviews
     review_text = db.Column(db.Text, nullable=True)  # Actual review text (single review)
     image_path = db.Column(db.String(255), nullable=True)  # Path to the tutor's image
-
+    review_entries = db.relationship('Review', backref='tutor', lazy=True)
     def __repr__(self):
         return f'Tutor({self.name}, {self.subject}, {self.rating}, {self.reviews} reviews, Review: {self.reviews}, Image Path: {self.image_path})'
 class Booking(db.Model):
@@ -41,3 +43,24 @@ class Booking(db.Model):
 
     def __repr__(self):
         return f'Booking({self.user.username} with {self.tutor.name} on {self.booked_date})'
+
+class Review(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    rating = db.Column(db.Integer, nullable=False) 
+    description = db.Column(db.Text, nullable=False)
+    tutor_id = db.Column(db.Integer, db.ForeignKey('tutor.id'), nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    timestamp = db.Column(db.DateTime, default=datetime.utcnow)
+
+    user = db.relationship('User', backref='user_reviews')
+
+    def __repr__(self):
+        return f'Review({self.rating} stars, Tutor ID: {self.tutor_id}, User ID: {self.user_id})'
+
+
+def calculate_new_rating(tutor, new_rating):
+    tutor.reviews += 1
+    total_reviews = tutor.reviews  
+    tutor.rating = round((tutor.rating * (total_reviews - 1) + new_rating) / total_reviews, 1)
+
+    db.session.commit()
