@@ -356,6 +356,20 @@ def book_session(tutor_id):
     return render_template('book_session.html', tutor=tutor, user=user)
 
 
+@app.route('/view_bookings')
+@login_required
+def view_bookings():
+    # Fetch the current user from the session
+    user_id = session.get('user_id')
+    user = User.query.get(user_id) if user_id else None
+
+    # Fetch all bookings for this user from the database
+    bookings = Booking.query.filter_by(user_id=user.id).all()
+
+    # Render the bookings in a template
+    return render_template('view_bookings.html', bookings=bookings, user=user)
+
+
 if __name__ == '__main__':
     with app.app_context():
         db.create_all()  # create all tables in the database
