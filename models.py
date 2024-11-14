@@ -30,3 +30,14 @@ class Tutor(db.Model):
 
     def __repr__(self):
         return f'Tutor({self.name}, {self.subject}, {self.rating}, {self.reviews} reviews, Review: {self.reviews}, Image Path: {self.image_path})'
+class Booking(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    tutor_id = db.Column(db.Integer, db.ForeignKey('tutor.id'), nullable=False)
+    booked_date = db.Column(db.Date, nullable=False)
+    booked_time = db.Column(db.String(20), nullable=False)  # Store the booked time slot
+    user = db.relationship('User', backref='bookings')
+    tutor = db.relationship('Tutor', backref='bookings')
+
+    def __repr__(self):
+        return f'Booking({self.user.username} with {self.tutor.name} on {self.booked_date})'

@@ -1,7 +1,7 @@
 # main.py
 from flask import Flask, render_template, request, redirect, url_for, flash, session
 from forms import LoginForm, RegistrationForm  # Import forms from forms.py
-from models import db, User, Tutor  # Import models from models.py
+from models import db, User, Tutor, Booking  # Import models from models.py
 from flask_mail import Mail, Message
 from flask_uploads import UploadSet, configure_uploads, IMAGES, patch_request_class
 from flask_login import current_user, LoginManager
@@ -295,7 +295,7 @@ def filter_tutors_subject():
         query = sort_tutors(query, sort_by)
 
     return render_template('find_tutors.html', tutors=query, user=user)
-
+'''
 @app.route('/book_session/<int:tutor_id>', methods=['GET', 'POST'])
 @login_required
 def book_session(tutor_id):
@@ -322,6 +322,39 @@ def book_session(tutor_id):
         return redirect(url_for('tutors'))  # Redirect back to the tutors page
 
     return render_template('book_session.html', tutor=tutor, user=user)
+'''
+@app.route('/book_session/<int:tutor_id>', methods=['GET', 'POST'])
+@login_required
+def book_session(tutor_id):
+    user_id = session.get('user_id')
+    user = User.query.get(user_id) if user_id else None
+
+    tutor = Tutor.query.get(tutor_id)  # Fetch the tutor using the tutor_id
+
+    if not tutor:
+        flash('Tutor not found.', 'danger')
+        return redirect(url_for('tutors'))
+
+    if request.method == 'POST':
+        bookedDate = request.form['date']
+        bookedTime = request.form['time_slot']  # Get the selected time slot from the form
+        selected_date = datetime.strptime(bookedDate, '%Y-%m-%d').date()
+        current_date = datetime.now().date()
+
+        if selected_date < current_date:
+            flash('Please select a date that is today or in the future.', 'danger')
+            return redirect(url_for('book_session', tutor_id=tutor_id))
+
+        # Create a new booking
+        new_booking = Booking(user_id=user.id, tutor_id=tutor.id, booked_date=selected_date, booked_time=bookedTime)
+        db.session.add(new_booking)
+        db.session.commit()
+
+        flash(f'Successfully booked a session with {tutor.name} on {bookedDate} at {bookedTime}!', 'success')
+        return redirect(url_for('tutors'))  # Redirect back to the tutors page
+
+    return render_template('book_session.html', tutor=tutor, user=user)
+
 
 if __name__ == '__main__':
     with app.app_context():
