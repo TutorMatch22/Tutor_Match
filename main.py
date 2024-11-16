@@ -355,7 +355,6 @@ def book_session(tutor_id):
 
     return render_template('book_session.html', tutor=tutor, user=user)
 
-
 @app.route('/view_bookings')
 @login_required
 def view_bookings():
@@ -398,6 +397,15 @@ def tutor_reviews(tutor_id):
 
     return render_template('tutor_reviews.html', tutor=tutor, reviews=reviews, user=user)
 
+@app.route('/<int:tutor_id>')
+def tutor(tutor_id):
+    user_id = session.get('user_id')
+    user = User.query.get(user_id) if user_id else None
+
+    tutor = Tutor.query.get_or_404(tutor_id)
+    reviews = tutor.review_entries  
+
+    return render_template('tutor.html', tutor=tutor, user=user, reviews=reviews)
 
 @app.route('/user_reviews')
 @login_required

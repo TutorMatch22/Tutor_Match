@@ -21,34 +21,58 @@
                 <li><a href="{{ url_for('filter_tutors_subject') }}">Find a Tutor</a></li>
                 {% if session.get('user_id') %}
                     <div class="dropdown">
-                        <img src="{{ url_for('static', filename=user.photo_path) }}" alt="Profile Image" class="dropbtn user-profile" onclick="toggleDropdown()">
+                        <img src="{{  url_for('static', filename=user.photo_path) }}" alt="Profile Image" class="dropbtn user-profile" onclick="toggleDropdown()">
                         <div class="dropdown-content" id="myDropdown">
                             <a href="{{ url_for('logout') }}">Log Out</a>
-                            <a href="{{ url_for('view_bookings') }}">My Sessions</a>
+                            <a href="{{ url_for('view_bookings') }}">My Sessions</a> <!-- Link to My Sessions -->
                             <a href="{{ url_for('user_reviews') }}">View Reviews</a>
+
                         </div>
+                    </div>
+                    <div class="none-dropdown">
+                        <li><a href="{{ url_for('view_bookings') }}">My Sessions</a></li>
+                        <li><a href="{{ url_for('user_reviews') }}">View Reviews</a></li>
+                        <li><a href="{{ url_for('logout') }}">Log Out</a></li>
                     </div>
                 {% else %}
                     <li><a href="{{ url_for('login') }}" class="login-btn">Log In</a></li>
                 {% endif %}
             </ul>
         </nav>
+        <div class="fas fa-bars"></div>
     </header>
 
     <section class="user-reviews">
         <h2>My Reviews</h2>
-        <ul>
-            {% for review in reviews %}
-                <li>
-                    <strong>Tutor:</strong> {{ review.tutor.name }} <br>
-                    <strong>Rating:</strong> {{ review.rating }} Stars <br>
-                    <strong>Review:</strong> {{ review.description }} <br>
-                    <small>on {{ review.timestamp.strftime('%Y-%m-%d') }}</small>
-                </li>
-            {% else %}
-                <li>No reviews yet.</li>
-            {% endfor %}
-        </ul>
+        {% if reviews %}
+            <table>
+                <thead>
+                    <tr style=" background-color: var(--blue);">
+                        <th style="width:20%">Tutor</th>
+                        <th style="width:20%">Rating</th>
+                        <th style="width:60%">Review</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for review in reviews %}
+                        <tr>
+                            <td>{{ review.tutor.name }}</td>
+                            <td style="text-align: center; color: #ff9529;">
+                                {% for i in range(review.rating) %}
+                                    <i class="fas fa-star"></i>
+                                {% endfor %}
+                                {% for i in range(5 - review.rating) %}
+                                    <i class="far fa-star"></i>
+                                {% endfor %}
+                            </td>
+                            <td>{{ review.description }} <br><small>(on {{ review.timestamp.strftime('%Y-%m-%d') }})</small></td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <p>You have made no reviews yet.</p>
+        {% endif %}
     </section>
 
     <script src="{{ url_for('static', filename='js/main.js') }}"></script>

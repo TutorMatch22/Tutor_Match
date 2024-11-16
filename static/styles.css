@@ -488,9 +488,19 @@ body {
     margin-bottom: 1rem;
 }
 
+.all-tutors .box-container .box img:hover, .find-tutors .box-container .box img:hover{
+    box-shadow: .3rem .5rem rgba(0,0,0,.3);
+}
+
 .all-tutors .box-container .box h2, .find-tutors .box-container .box h2 {
     font-size: 2rem;
     padding-bottom: .5rem;
+    color: #222;
+}
+
+.all-tutors .box-container .box h2:hover, .find-tutors .box-container .box h2:hover {
+    text-decoration: underline;
+    color: var(--darkblue);
 }
 
 .all-tutors .box-container .box h3, .find-tutors .box-container .box h3 {
@@ -527,6 +537,12 @@ body {
 
 .all-tutors .session-btn:hover, .find-tutors .session-btn:hover {
     background-color: #45a049;
+}
+
+.tutor-link {
+    text-decoration: none;
+    color: var(--red);
+    cursor: pointer;
 }
 
 .find-tutors .find-tutors-container {
@@ -716,6 +732,139 @@ body {
     background-color: #45a049;
 }
 
+/* VIEW_BOOKINGS.HTML, USER_REVIEWS.HTML,  */
+.my-sessions, .user-reviews {
+    max-width: 60rem;
+    min-height: 85vh;
+    margin: 9rem auto;
+    padding: 2.5rem;
+    border: 1px solid #ddd;
+    border-radius: 1rem;
+    background-color: #f9f9f9;
+    text-align: center;
+}
+
+.my-sessions h2, .user-reviews h2, .add-review h2 {
+    font-size: 2.5rem;
+    color: #333;
+    margin-bottom: 2rem;
+}
+
+.my-sessions table, .user-reviews table, .tutor-review table {
+    border-collapse: collapse;
+    width: 100%;
+  }
+
+.my-sessions td, .my-sessions th, .user-reviews td, .user-reviews th, .tutor-review td, .tutor-review th {
+    font-size: 1.25rem;
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 0 8px;
+}
+
+.user-reviews td, .tutor-review td {
+    vertical-align: top;
+}
+
+.user-reviews small {
+    color: #555;
+}
+
+/* ADD_REVIEW.HTML */
+.add-review {
+    max-width: 60rem;
+    min-height: 45vh;
+    margin: 9rem auto;
+    padding: 2.5rem;
+    border: 1px solid #ddd;
+    border-radius: 1rem;
+    background-color: #f9f9f9;
+    text-align: center;
+}
+
+.add-review label {
+    font-weight: bold;
+    font-size: 1.25rem;
+}
+
+.add-review #description {
+    width: 45rem;
+    height: 15rem;
+}
+
+.add-review .form-btn {
+    width: 140px;
+    height: 40px;
+    border: none;
+    border-radius: 50px;
+    background: #4CAF50;
+    color: #fff;
+    font-size: 1.25rem;
+    font-weight: 600;
+    cursor: pointer;
+    margin-top: 1rem;
+}
+
+.add-review .form-btn:hover {
+    background-color: #45a049;
+}
+
+/* TUTOR.HTML */
+.tutor {
+    max-width: 60rem;
+    margin: 16rem auto;
+    padding: 2.5rem;
+    border: 1px solid #ddd;
+    border-radius: 1rem;
+    background-color: #f9f9f9;
+    text-align: center;
+    line-height: 3rem;
+}
+
+.tutor h2 {
+    font-size: 3rem;
+    margin-bottom:1rem;
+}
+
+.tutor h3 {
+    font-size: 2rem;
+}
+
+.tutor p {
+    font-size: 1.25rem;
+}
+
+.tutor img {
+    height: auto;
+    width: 200px;
+    object-fit: cover;
+    margin-bottom: 1rem;
+    margin-top: -10rem;
+}
+
+.tutor .tutor-review {
+    text-align: justify;
+}
+
+.tutor .btn {
+    background-color: #4CAF50;
+    color: #fff;
+    padding: 0.75rem 1.5rem;
+    border-radius: 0.5rem;
+    text-decoration: none;
+    position:inherit; 
+    transform: translateX(-50%);
+    font-size: 1.25rem;
+    margin-top: 10rem;
+}
+
+.tutor .btn:hover {
+    background-color: #45a049;
+}
+
+.tutor-review {
+    margin: 2rem 0;
+}
 
 /* media queries */
 @media only screen and (max-width: 1023px) and (min-width: 768px) {
@@ -1104,5 +1253,18 @@ body {
 
     .book-session img {
         width: 125px;
+    }
+
+    .my-sessions, .user-reviews, .add-review, .tutor {
+        max-width: 35rem;
+    }
+
+    .add-review #description {
+        width: 30rem;
+        height: 15rem;
+    }
+
+    .tutor img {
+        width: 150px;
     }
 }

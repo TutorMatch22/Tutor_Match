@@ -24,14 +24,15 @@
                     <img src="{{  url_for('static', filename=user.photo_path) }}" alt="Profile Image" class="dropbtn user-profile" onclick="toggleDropdown()">
                     <div class="dropdown-content" id="myDropdown">
                         <a href="{{ url_for('logout') }}">Log Out</a>
-                        <a href="{{ url_for('view_bookings') }}">My Sessions</a>
+                        <a href="{{ url_for('view_bookings') }}">My Sessions</a> <!-- Link to My Sessions -->
                         <a href="{{ url_for('user_reviews') }}">View Reviews</a>
+
                     </div>
                 </div>
                 <div class="none-dropdown">
-                    <li><a href="{{ url_for('logout') }}">Log Out</a></li>
-                    <li><a href="{{ url_for('view_bookings') }}">My Sessions</a></li> <!-- Link to My Sessions -->
+                    <li><a href="{{ url_for('view_bookings') }}">My Sessions</a></li>
                     <li><a href="{{ url_for('user_reviews') }}">View Reviews</a></li>
+                    <li><a href="{{ url_for('logout') }}">Log Out</a></li>
                 </div>
             {% else %}
                 <li><a href="{{ url_for('login') }}" class="login-btn">Log In</a></li>
@@ -46,16 +47,16 @@
         {% for tutor in tutors %}
             <div class="box">
                 <div class="tutor-content">
-                    <img src="{{ tutor.image_path }}" alt="Profile image of {{ tutor.name }}">
-                    <h2>{{ tutor.name }}</h2>
+                    <a href="{{ url_for('tutor', tutor_id=tutor.id) }}" class="tutor-link">
+                        <img src="{{ tutor.image_path }}" alt="Profile image of {{ tutor.name }}">
+                        <h2>{{ tutor.name }}</h2>
+                    </a>
                     <h3><i class="fas fa-solid fa-graduation-cap"></i> {{ tutor.subject }}</h3>
                     <p class="tutor-rating"><i class="fas fa-solid fa-star"></i> {{ tutor.rating }} ({{ tutor.reviews }} reviews)</p>
                     <p><strong>Available:</strong> {{ tutor.days_available }}</p>
                     <p><strong>Time Slots:</strong> {{ tutor.time_slots }}</p>
                     <p><strong>Review:</strong> {{ tutor.review_text }}</p>
-                    <a href="{{ url_for('book_session', tutor_id=tutor.id) }}" class="session-btn">Book a Session</a> <!-- Booking Button -->
-                    <a href="{{ url_for('add_review', tutor_id=tutor.id) }}" class="btn">Add Review</a>
-                    <a href="{{ url_for('tutor_reviews', tutor_id=tutor.id) }}" class="btn">View Reviews</a>
+                    <a href="{{ url_for('add_review', tutor_id=tutor.id) }}" class="session-btn">Add Review</a>
                 </div>
             </div>
         {% endfor %}

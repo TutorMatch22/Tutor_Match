@@ -29,9 +29,9 @@
                     </div>
                 </div>
                 <div class="none-dropdown">
-                    <li><a href="{{ url_for('logout') }}">Log Out</a></li>
                     <li><a href="{{ url_for('view_bookings') }}">My Sessions</a></li>
                     <li><a href="{{ url_for('user_reviews') }}">View Reviews</a></li>
+                    <li><a href="{{ url_for('logout') }}">Log Out</a></li>
                 </div>
             {% else %}
                 <li><a href="{{ url_for('login') }}" class="login-btn">Log In</a></li>
