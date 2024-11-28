@@ -1,7 +1,8 @@
 import os
 import pytest
 from main import app, db
-
+from werkzeug.datastructures import FileStorage
+import io
 @pytest.fixture
 def client():
     app.config['TESTING'] = True
@@ -49,28 +50,44 @@ def test_unsuccessful_registration(client):
     assert b'Passwords must match' in rv.data  
 
 def test_successful_registration(client):
+    dummy_file = FileStorage(
+        stream=io.BytesIO(b"dummy image content"),
+        filename="dummy.jpg",
+        content_type="image/jpeg"
+    )
     rv = client.post('/register', data={
         'username': 'validuser',
         'password': 'Valid@1234',
-        'confirm_password': 'Valid@1234'
-    }, follow_redirects=True)  
+        'confirm_password': 'Valid@1234',
+        'photo': dummy_file  
+    }, content_type='multipart/form-data', follow_redirects=True)
 
     assert rv.status_code == 200 
+    assert b'Account created for validuser!' in rv.data  
+    assert b'Log In' in rv.data  
 
 def test_successful_login(client):
+    dummy_file = FileStorage(
+        stream=io.BytesIO(b"dummy image content"),
+        filename="dummy.jpg",
+        content_type="image/jpeg"
+    )
+
     client.post('/register', data={
         'username': 'uniqueuser',
         'password': 'Valid@1234',
-        'confirm_password': 'Valid@1234'
-    }, follow_redirects=True)
-    
+        'confirm_password': 'Valid@1234',
+        'photo': dummy_file  
+    }, content_type='multipart/form-data', follow_redirects=True)
+
     rv = client.post('/login', data={
         'username': 'uniqueuser',
         'password': 'Valid@1234'
     }, follow_redirects=True)
+    assert rv.status_code == 200  
+    assert b'Logged in successfully as uniqueuser!' in rv.data 
+    assert b'Home' in rv.data  
 
-    assert rv.status_code == 200
-    assert b"Logged in successfully" in rv.data
 
 def test_unsuccessful_login(client):
     rv = client.post('/login', data={
