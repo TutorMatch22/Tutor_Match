@@ -2,7 +2,7 @@
 StudyConnect is a web-based platform that allows students to search, view, and book tutors online. The project uses **Flask**, **Python**, and **HTML**.
 
 ## Database setup if error occurs 
-Make a directory in the root directory of the project by running this command in the root:
+Make a directory in the root directory of the project by running this command in the root (if not already made by main):
 
 mkdir instance
 
