@@ -20,16 +20,12 @@ app.config['UPLOADED_PHOTOS_DEST'] = os.path.join(basedir, 'static/users-profile
 app.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///{os.path.join(basedir, "instance", "tutors.db")}'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
-#**for email**
-#app.config['MAIL_SERVER'] = 'smtp.gmail.com'  # **Example using Gmail**
-#app.config['MAIL_PORT'] = 587
-#app.config['MAIL_USE_TLS'] = True
-#app.config['MAIL_USERNAME'] = 'studyconnect7@gmail.com'  # **Add your email**
-#app.config['MAIL_PASSWORD'] = 'TutorMatch$1234'  # **Add your email password**
 
-#mail = Mail(app)
+instance_folder = os.path.join(basedir, "instance")
+if not os.path.exists(instance_folder):
+    os.makedirs(instance_folder)
+    print(f"Created missing 'instance' folder at {instance_folder}")
 
-# initialize the database with the Flask app
 db.init_app(app)
 
 @app.route('/')
