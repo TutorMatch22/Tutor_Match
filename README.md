@@ -55,6 +55,10 @@ set PATH=%cd%\venv\Scripts;%PATH%   # Windows
 pytest
 
 ## Running the Application
+Recommended to run with no errors: python main.py
+
+Alternative Options for Running the Application:
+
 export FLASK_APP=main  # For MacOS/Linux
 
 set FLASK_APP=main     # For Windows
