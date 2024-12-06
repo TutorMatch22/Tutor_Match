@@ -13,6 +13,11 @@ chmod 777 instance/tutors.db    # Mac/Linux
 icacls "instance/tutors.db" /grant Everyone:F   # Windows
 
 Run the program now, the tutors.db should exist and have the necessary permisions.
+
+If there are still errors, run the program by:
+
+python main.py
+
 ## if error occurs from from werkzeug import secure_filename, FileStorage
 replace "from flask.helpers import secure_filename
 from werkzeug.datastructures import FileStorage" with "from werkzeug.utils import secure_filename
