@@ -39,8 +39,12 @@ python -m venv venv
 
 venv\Scripts\activate
 
-### 3. Install Dependencies
+### 3. Install Dependencies and set the Path:
 pip install -r requirements.txt
+
+export PATH=$(pwd)/venv/bin:$PATH   # Mac
+
+set PATH=%cd%\venv\Scripts;%PATH%   # Windows
 
 ## Running Tests
 pytest
