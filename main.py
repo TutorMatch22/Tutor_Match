@@ -418,4 +418,4 @@ if __name__ == '__main__':
         db.create_all()  # create all tables in the database
         add_dummy_data()  # if the Tutor table is empty add dummy data
 
-    app.run(debug=True)
+    app.run(debug=False)
